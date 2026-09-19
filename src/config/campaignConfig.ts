@@ -435,7 +435,7 @@ export const NEWS_ARTICLES: NewsArticle[] = [
       '"Flooding damages small business merchandise, disrupts schooling, and creates recurring health hazards. As your representative, I will sponsor urgent motions and interface directly with FERMA and the Federal Ministry of Environment," [CANDIDATE NAME] stated.',
       'An engineering assessment group composed of volunteer civil engineers from our constituency has been commissioned to map the highest risk channels to support our legislative petitions.'
     ],
-    imageUrl: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80',
+    imageUrl: '/assets/images/bori-civic-consultation.jpg',
     author: 'Constituency Relations Office'
   },
   {
@@ -512,12 +512,12 @@ export const GALLERY_ITEMS: GalleryItem[] = [
   },
   {
     id: 'gal-5',
-    title: 'Policy Consultation with Civil Society & Environmental Advocates',
+    title: 'Civic Consultation & Town Hall Meeting in Bori',
     category: 'Meetings',
-    location: 'Campaign Headquarters, [STATE]',
+    location: 'Bori Town Hall, Khana LGA',
     date: 'January 2026',
-    imageUrl: 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80',
-    caption: 'Drafting targeted proposals for drainage remediation and flood prevention.'
+    imageUrl: '/assets/images/bori-civic-consultation.jpg',
+    caption: 'Engaging community elders, leaders, and youth on infrastructure and economic priorities in Bori.'
   },
   {
     id: 'gal-6',
