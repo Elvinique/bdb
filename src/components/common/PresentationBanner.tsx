@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useCampaign } from '../../context/CampaignContext';
-import { Eye, Settings, ShieldAlert, Sparkles, LayoutDashboard, Check } from 'lucide-react';
+import { Settings, Sparkles, LayoutDashboard, Check, X, SlidersHorizontal } from 'lucide-react';
 
 interface PresentationBannerProps {
   onOpenConfigEditor?: () => void;
@@ -8,108 +8,133 @@ interface PresentationBannerProps {
 
 export const PresentationBanner: React.FC<PresentationBannerProps> = ({ onOpenConfigEditor }) => {
   const { isSampleMode, setIsSampleMode, activeView, navigateTo, setIsConfigModalOpen } = useCampaign();
-  const [dismissed, setDismissed] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
-  if (dismissed) {
-    return (
-      <button
-        id="reopen-demo-banner-btn"
-        onClick={() => setDismissed(false)}
-        className="fixed bottom-4 left-4 z-40 flex items-center gap-2 bg-stone-900/90 text-stone-200 hover:text-white px-3 py-1.5 rounded-full text-xs font-medium shadow-lg backdrop-blur-sm border border-stone-700 transition"
-      >
-        <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-        Candidate Demo Controls
-      </button>
-    );
-  }
+  if (hidden) return null;
 
   return (
-    <aside aria-label="Candidate Presentation Mode" className="bg-gradient-to-r from-stone-900 via-emerald-950 to-stone-900 text-stone-200 text-xs border-b border-emerald-800/40 py-2 px-4 sticky top-0 z-50 shadow-md">
-      <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2.5">
-          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-semibold border border-amber-500/30 text-[11px]">
-            <Sparkles className="w-3 h-3 text-amber-400" />
-            PRESENTATION PROTOTYPE
-          </span>
-          <span className="hidden sm:inline text-stone-300">
-            For Federal House of Representatives Candidate Presentation
-          </span>
-        </div>
-
-        <div className="flex items-center flex-wrap gap-2">
-          {/* Toggle between Sample Candidate Profile & Raw Template Placeholders */}
-          <div className="flex items-center bg-stone-800/90 rounded-lg p-0.5 border border-stone-700">
+    <div className="fixed bottom-6 left-6 z-40 font-sans print:hidden">
+      {/* Expanded Popover Panel */}
+      {isOpen && (
+        <div className="mb-3 w-80 bg-stone-900/95 text-stone-100 rounded-2xl border border-stone-700/80 shadow-2xl backdrop-blur-md p-4 animate-in slide-in-from-bottom-3 duration-200">
+          <div className="flex items-center justify-between pb-3 mb-3 border-b border-stone-800">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+              <h4 className="text-xs font-bold text-stone-100 tracking-wide uppercase">
+                Demo & Presentation Controls
+              </h4>
+            </div>
             <button
-              id="toggle-sample-mode-btn"
-              onClick={() => setIsSampleMode(true)}
-              className={`px-2.5 py-1 rounded-md transition font-medium text-[11px] flex items-center gap-1.5 ${
-                isSampleMode
-                  ? 'bg-emerald-700 text-white shadow-sm'
-                  : 'text-stone-400 hover:text-stone-200'
-              }`}
-              title="Preview with realistic candidate profile (Engr. Buradum Baribefe Daniel)"
+              onClick={() => setIsOpen(false)}
+              className="p-1 rounded-lg text-stone-400 hover:text-white hover:bg-stone-800 transition"
+              title="Close panel"
             >
-              {isSampleMode && <Check className="w-3 h-3" />}
-              Sample Profile
-            </button>
-            <button
-              id="toggle-placeholder-mode-btn"
-              onClick={() => setIsSampleMode(false)}
-              className={`px-2.5 py-1 rounded-md transition font-medium text-[11px] flex items-center gap-1.5 ${
-                !isSampleMode
-                  ? 'bg-emerald-700 text-white shadow-sm'
-                  : 'text-stone-400 hover:text-stone-200'
-              }`}
-              title="Show editable template tags ([CANDIDATE NAME], [FEDERAL CONSTITUENCY])"
-            >
-              {!isSampleMode && <Check className="w-3 h-3" />}
-              [Template Mode]
+              <X className="w-3.5 h-3.5" />
             </button>
           </div>
 
-          {/* Quick Config Editor */}
-          <button
-            id="edit-campaign-config-btn"
-            onClick={onOpenConfigEditor || (() => setIsConfigModalOpen(true))}
-            className="flex items-center gap-1.5 bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white px-2.5 py-1 rounded-md border border-stone-700 transition text-[11px] font-medium"
-            title="Edit Candidate Name, Constituency, Party, Slogan"
-          >
-            <Settings className="w-3 h-3 text-amber-400" />
-            <span>Customize Info</span>
-          </button>
+          <div className="space-y-3 text-xs">
+            {/* Profile Mode Toggle */}
+            <div>
+              <p className="text-[11px] text-stone-400 mb-1.5 font-medium">Candidate Profile Mode</p>
+              <div className="grid grid-cols-2 gap-1.5 bg-stone-800/80 p-1 rounded-xl border border-stone-700/60">
+                <button
+                  id="demo-sample-profile-btn"
+                  onClick={() => setIsSampleMode(true)}
+                  className={`py-1.5 px-2 rounded-lg font-medium text-[11px] flex items-center justify-center gap-1 transition ${
+                    isSampleMode
+                      ? 'bg-emerald-700 text-white shadow-sm'
+                      : 'text-stone-400 hover:text-stone-200'
+                  }`}
+                >
+                  {isSampleMode && <Check className="w-3 h-3 text-emerald-300" />}
+                  Engr. Daniel
+                </button>
+                <button
+                  id="demo-template-mode-btn"
+                  onClick={() => setIsSampleMode(false)}
+                  className={`py-1.5 px-2 rounded-lg font-medium text-[11px] flex items-center justify-center gap-1 transition ${
+                    !isSampleMode
+                      ? 'bg-emerald-700 text-white shadow-sm'
+                      : 'text-stone-400 hover:text-stone-200'
+                  }`}
+                >
+                  {!isSampleMode && <Check className="w-3 h-3 text-emerald-300" />}
+                  Template Tags
+                </button>
+              </div>
+            </div>
 
-          {/* Admin Dashboard Switcher */}
-          {activeView === 'admin' ? (
-            <button
-              id="return-to-site-btn"
-              onClick={() => navigateTo('home')}
-              className="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-500 text-white px-2.5 py-1 rounded-md transition text-[11px] font-semibold"
-            >
-              <Eye className="w-3 h-3" />
-              <span>Back to Public Site</span>
-            </button>
-          ) : (
-            <button
-              id="open-admin-portal-demo-btn"
-              onClick={() => navigateTo('admin')}
-              className="flex items-center gap-1.5 bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white px-2.5 py-1 rounded-md border border-stone-700 transition text-[11px] font-medium"
-              title="Demonstrate the Campaign Staff & Campaign Manager Admin Backend"
-            >
-              <LayoutDashboard className="w-3 h-3 text-emerald-400" />
-              <span>Admin Demo</span>
-            </button>
-          )}
+            {/* Quick Actions */}
+            <div className="grid grid-cols-2 gap-2 pt-1">
+              <button
+                id="demo-customize-info-btn"
+                onClick={() => {
+                  setIsOpen(false);
+                  if (onOpenConfigEditor) onOpenConfigEditor();
+                  else setIsConfigModalOpen(true);
+                }}
+                className="flex items-center justify-center gap-1.5 bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white py-2 px-3 rounded-xl border border-stone-700 transition font-medium text-[11px]"
+              >
+                <Settings className="w-3.5 h-3.5 text-amber-400" />
+                Customize Info
+              </button>
 
-          <button
-            id="dismiss-banner-btn"
-            onClick={() => setDismissed(true)}
-            className="text-stone-400 hover:text-stone-200 p-1 ml-1"
-            title="Minimize banner"
-          >
-            ×
-          </button>
+              {activeView === 'admin' ? (
+                <button
+                  id="demo-return-home-btn"
+                  onClick={() => {
+                    setIsOpen(false);
+                    navigateTo('home');
+                  }}
+                  className="flex items-center justify-center gap-1.5 bg-emerald-700 hover:bg-emerald-600 text-white py-2 px-3 rounded-xl transition font-medium text-[11px]"
+                >
+                  Public Site
+                </button>
+              ) : (
+                <button
+                  id="demo-open-admin-btn"
+                  onClick={() => {
+                    setIsOpen(false);
+                    navigateTo('admin');
+                  }}
+                  className="flex items-center justify-center gap-1.5 bg-emerald-800/60 hover:bg-emerald-700 text-emerald-200 hover:text-white py-2 px-3 rounded-xl border border-emerald-700/60 transition font-medium text-[11px]"
+                >
+                  <LayoutDashboard className="w-3.5 h-3.5 text-emerald-400" />
+                  Staff Admin
+                </button>
+              )}
+            </div>
+
+            {/* Dismiss permanently for presentation */}
+            <div className="pt-2 border-t border-stone-800 flex justify-between items-center text-[10px] text-stone-400">
+              <span>Candidate Live Preview</span>
+              <button
+                onClick={() => setHidden(true)}
+                className="text-stone-400 hover:text-rose-400 transition underline underline-offset-2"
+              >
+                Hide completely
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    </aside>
+      )}
+
+      {/* Floating Pill Trigger */}
+      <button
+        id="demo-floating-trigger-btn"
+        onClick={() => setIsOpen((prev) => !prev)}
+        className="group flex items-center gap-2 bg-stone-900/90 hover:bg-stone-800 text-stone-200 hover:text-white px-3.5 py-2 rounded-full text-xs font-semibold shadow-xl backdrop-blur-md border border-stone-700/80 hover:border-amber-500/50 transition-all hover:scale-105 active:scale-95"
+        title="Toggle Candidate Demo Controls"
+      >
+        <span className="relative flex h-2 w-2">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
+        </span>
+        <SlidersHorizontal className="w-3.5 h-3.5 text-amber-400 group-hover:rotate-45 transition-transform" />
+        <span className="text-[11px] tracking-tight">Presentation Tools</span>
+      </button>
+    </div>
   );
 };

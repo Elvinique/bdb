@@ -87,7 +87,6 @@ const CampaignApp: React.FC = () => {
   if (currentPage === 'admin') {
     return (
       <div className="min-h-screen bg-stone-900">
-        <PresentationBanner />
         <AdminDashboard />
         <ToastContainer />
       </div>
@@ -96,9 +95,6 @@ const CampaignApp: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-stone-50 flex flex-col text-stone-900 selection:bg-emerald-800 selection:text-white">
-      {/* Sticky Presentation Control Bar for Candidate Demonstration */}
-      <PresentationBanner />
-
       {/* Primary Sticky Campaign Navigation */}
       <Navbar />
 
@@ -196,6 +192,9 @@ const CampaignApp: React.FC = () => {
 
       {/* Global Campaign AI Assistant (Multi-turn Gemini Chatbot) */}
       <CampaignChatbot />
+
+      {/* Floating Presentation & Demo Controls (Bottom Left) */}
+      <PresentationBanner />
 
       {/* Global Toast Alerts */}
       <ToastContainer />
