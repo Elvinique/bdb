@@ -1,0 +1,6 @@
+{
+  "name": "Nigeria Federal House Campaign Platform",
+  "description": "Official campaign, civic engagement, and grassroots mobilization platform for Engr. Buradum Baribefe Daniel, candidate for House of Representatives, Khana/Gokana Federal Constituency, Rivers State (NNPP).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

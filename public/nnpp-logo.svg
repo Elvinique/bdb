@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <!-- Clip path matching the silhouette outline of the map of Nigeria -->
+    <clipPath id="nigeria-map-clip">
+      <path d="M 140 100 
+               C 155 85, 180 82, 210 85 
+               C 235 88, 255 78, 275 90 
+               C 295 102, 310 120, 318 140 
+               C 325 160, 310 185, 305 205 
+               C 300 220, 285 240, 260 255 
+               C 245 264, 225 268, 215 262 
+               C 200 252, 185 260, 165 260 
+               C 145 260, 130 245, 120 230 
+               C 105 210, 95 185, 95 160 
+               C 95 135, 110 115, 140 100 Z" />
+    </clipPath>
+    <filter id="subtle-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.15" />
+    </filter>
+  </defs>
+
+  <!-- Circular Party Badge Background -->
+  <circle cx="200" cy="200" r="188" fill="#ffffff" stroke="#15803d" stroke-width="14" />
+
+  <!-- Thin inner decorative ring -->
+  <circle cx="200" cy="200" r="176" fill="none" stroke="#86efac" stroke-width="2" stroke-dasharray="4 3" opacity="0.6" />
+
+  <!-- Nigeria Map Shape with 3 vertical color bands (Green, White, Sky Blue) -->
+  <g filter="url(#subtle-shadow)">
+    <!-- Base Map Outline Stroke -->
+    <path d="M 140 100 
+             C 155 85, 180 82, 210 85 
+             C 235 88, 255 78, 275 90 
+             C 295 102, 310 120, 318 140 
+             C 325 160, 310 185, 305 205 
+             C 300 220, 285 240, 260 255 
+             C 245 264, 225 268, 215 262 
+             C 200 252, 185 260, 165 260 
+             C 145 260, 130 245, 120 230 
+             C 105 210, 95 185, 95 160 
+             C 95 135, 110 115, 140 100 Z" 
+          fill="#f8fafc" stroke="#0f172a" stroke-width="4" stroke-linejoin="round" />
+
+    <!-- Three Tricolor Bands inside the Nigeria Map: Green, White, Sky Blue (NNPP Flag colors) -->
+    <g clip-path="url(#nigeria-map-clip)">
+      <!-- Left Band: Green -->
+      <rect x="80" y="70" width="85" height="210" fill="#15803d" />
+      <!-- Middle Band: White -->
+      <rect x="165" y="70" width="75" height="210" fill="#ffffff" />
+      <!-- Right Band: Sky Blue -->
+      <rect x="240" y="70" width="90" height="210" fill="#0284c7" />
+      
+      <!-- Outline boundary lines for stripes -->
+      <line x1="165" y1="70" x2="165" y2="280" stroke="#0f172a" stroke-width="1.5" opacity="0.3" />
+      <line x1="240" y1="70" x2="240" y2="280" stroke="#0f172a" stroke-width="1.5" opacity="0.3" />
+    </g>
+
+    <!-- Map boundary border overlay -->
+    <path d="M 140 100 
+             C 155 85, 180 82, 210 85 
+             C 235 88, 255 78, 275 90 
+             C 295 102, 310 120, 318 140 
+             C 325 160, 310 185, 305 205 
+             C 300 220, 285 240, 260 255 
+             C 245 264, 225 268, 215 262 
+             C 200 252, 185 260, 165 260 
+             C 145 260, 130 245, 120 230 
+             C 105 210, 95 185, 95 160 
+             C 95 135, 110 115, 140 100 Z" 
+          fill="none" stroke="#0f172a" stroke-width="4.5" stroke-linejoin="round" />
+  </g>
+
+  <!-- Woven Harvest Basket Laden with Fruits in Center of Map -->
+  <g transform="translate(200, 172)">
+    <!-- Overflowing Agricultural Produce (Fruits, Crops, Grains) -->
+    <!-- Green Leaves & Foliage -->
+    <path d="M -52 -18 C -62 -32, -45 -42, -32 -28 C -22 -40, -5 -35, -12 -22 Z" fill="#16a34a" />
+    <path d="M 52 -18 C 62 -32, 45 -42, 32 -28 C 22 -40, 5 -35, 12 -22 Z" fill="#16a34a" />
+    
+    <!-- Purple Grapes & Berries Clusters -->
+    <circle cx="-28" cy="-22" r="7" fill="#4c1d95" />
+    <circle cx="-20" cy="-28" r="6.5" fill="#581c87" />
+    <circle cx="-14" cy="-20" r="7" fill="#6b21a8" />
+    <circle cx="-22" cy="-14" r="6" fill="#3b0764" />
+    <circle cx="28" cy="-22" r="7" fill="#4c1d95" />
+    <circle cx="20" cy="-28" r="6.5" fill="#581c87" />
+    <circle cx="14" cy="-20" r="7" fill="#6b21a8" />
+    <circle cx="22" cy="-14" r="6" fill="#3b0764" />
+
+    <!-- Pineapples & Yellow Bananas / Plantains -->
+    <ellipse cx="0" cy="-26" rx="14" ry="18" fill="#eab308" stroke="#a16207" stroke-width="1.5" />
+    <path d="M -5 -35 L 5 -35 L 8 -44 L 0 -40 L -8 -44 Z" fill="#15803d" />
+    <!-- Texture on pineapple -->
+    <line x1="-8" y1="-30" x2="8" y2="-20" stroke="#ca8a04" stroke-width="1.2" />
+    <line x1="-8" y1="-20" x2="8" y2="-30" stroke="#ca8a04" stroke-width="1.2" />
+
+    <!-- Red Apples & Tomatoes -->
+    <circle cx="-8" cy="-14" r="10" fill="#dc2626" />
+    <circle cx="8" cy="-14" r="10" fill="#b91c1c" />
+    <ellipse cx="0" cy="-10" rx="11" ry="9" fill="#ea580c" />
+
+    <!-- Basket Handles -->
+    <path d="M -44 -6 C -50 -18, -42 -22, -38 -12" fill="none" stroke="#78350f" stroke-width="3" stroke-linecap="round" />
+    <path d="M 44 -6 C 50 -18, 42 -22, 38 -12" fill="none" stroke="#78350f" stroke-width="3" stroke-linecap="round" />
+
+    <!-- Woven Basket Body -->
+    <path d="M -44 -6 L -36 28 C -34 33, -28 36, -20 37 L 20 37 C 28 36, 34 33, 36 28 L 44 -6 Z" 
+          fill="#92400e" stroke="#451a03" stroke-width="3.5" stroke-linejoin="round" />
+
+    <!-- Wicker Weave Pattern Lines -->
+    <!-- Horizontal rim -->
+    <rect x="-46" y="-8" width="92" height="6" rx="3" fill="#b45309" stroke="#451a03" stroke-width="2" />
+    <!-- Weave grid -->
+    <path d="M -30 4 L 30 4 M -26 14 L 26 14 M -22 24 L 22 24 M -16 32 L 16 32" stroke="#451a03" stroke-width="2" />
+    <path d="M -24 -2 L -18 36 M -8 -2 L -6 36 M 8 -2 L 6 36 M 24 -2 L 18 36" stroke="#b45309" stroke-width="2.5" />
+    <path d="M -16 -2 L -22 36 M 0 -2 L 0 36 M 16 -2 L 22 36" stroke="#78350f" stroke-width="2" />
+  </g>
+
+  <!-- Big Bold Green "NNPP" Text Under Map -->
+  <text x="200" y="332" 
+        font-family="system-ui, -apple-system, sans-serif" 
+        font-weight="900" 
+        font-size="58" 
+        letter-spacing="2" 
+        fill="#15803d" 
+        text-anchor="middle">
+    NNPP
+  </text>
+
+  <!-- Subtitle Tag -->
+  <text x="200" y="356" 
+        font-family="system-ui, -apple-system, sans-serif" 
+        font-weight="700" 
+        font-size="11" 
+        letter-spacing="3" 
+        fill="#166534" 
+        text-anchor="middle">
+    NEW NIGERIA PEOPLES PARTY
+  </text>
+</svg>
