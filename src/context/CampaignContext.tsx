@@ -21,6 +21,7 @@ import {
   INITIAL_TRANSPARENCY_DATA,
   CAMPAIGN_EVENTS
 } from '../config/campaignConfig';
+import { getSupabase } from '../lib/supabase/client';
 
 export type AppView =
   | 'home'
@@ -260,6 +261,26 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
       status: 'SUCCESS',
       details: `Donation of ₦${donationData.amount.toLocaleString()} received via ${donationData.paymentMethod}.`
     });
+
+    // Sync to Supabase if configured
+    const sb = getSupabase();
+    if (sb) {
+      sb.from('donations')
+        .insert({
+          reference: newRecord.reference,
+          donor_name: newRecord.donorName,
+          email: newRecord.email,
+          phone: newRecord.phone || null,
+          amount: newRecord.amount,
+          payment_method: newRecord.paymentMethod,
+          payment_provider: 'paystack_sandbox',
+          status: 'VERIFIED'
+        })
+        .then(({ error }) => {
+          if (error) console.warn('Supabase donation sync note:', error.message);
+        });
+    }
+
     notify(
       'Donation Confirmed',
       `Thank you, ${donationData.donorName}! ₦${donationData.amount.toLocaleString()} received for the campaign. Reference: ${newRecord.reference}`,
@@ -305,6 +326,29 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
       status: 'SUCCESS',
       details: `Volunteer registered in ${volData.lga} (Ward: ${volData.ward}).`
     });
+
+    // Sync to Supabase if configured
+    const sb = getSupabase();
+    if (sb) {
+      sb.from('volunteers')
+        .insert({
+          volunteer_code: newVol.id,
+          full_name: newVol.fullName,
+          email: newVol.email,
+          phone: newVol.phone,
+          lga: newVol.lga,
+          ward: newVol.ward,
+          community: newVol.community,
+          areas: newVol.areas || newVol.interests || [],
+          availability: newVol.availability || 'Weekends',
+          skills: newVol.skills || '',
+          status: 'ACTIVE'
+        })
+        .then(({ error }) => {
+          if (error) console.warn('Supabase volunteer sync note:', error.message);
+        });
+    }
+
     notify(
       'Welcome to the Movement!',
       `Thank you, ${volData.fullName}! Your volunteer profile has been registered in the campaign system.`,
@@ -337,6 +381,28 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
       status: 'SUCCESS',
       details: `Topic: ${itemData.topic} in ${itemData.lga}`
     });
+
+    // Sync to Supabase if configured
+    const sb = getSupabase();
+    if (sb) {
+      sb.from('community_feedback')
+        .insert({
+          reference_code: newFeedback.id,
+          full_name: newFeedback.fullName,
+          email: newFeedback.email || null,
+          phone: newFeedback.phone || null,
+          lga: newFeedback.lga,
+          ward: newFeedback.ward,
+          community: newFeedback.community,
+          topic: newFeedback.topic,
+          message: newFeedback.message,
+          status: 'NEW'
+        })
+        .then(({ error }) => {
+          if (error) console.warn('Supabase feedback sync note:', error.message);
+        });
+    }
+
     notify(
       'Community Concern Logged',
       `Thank you for speaking up! Your feedback on "${itemData.topic}" has been transmitted to our policy team.`,
@@ -367,6 +433,7 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
       })
     );
     if (found) {
+      const passCode = 'PASS-' + Math.floor(100000 + Math.random() * 900000);
       addAuditLog({
         actor: registrant.name,
         role: 'VIEWER',
@@ -376,6 +443,24 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
         status: 'SUCCESS',
         details: `${registrant.seats} seat(s) reserved by ${registrant.name}.`
       });
+
+      // Sync RSVP to Supabase if configured
+      const sb = getSupabase();
+      if (sb) {
+        sb.from('event_registrations')
+          .insert({
+            pass_code: passCode,
+            event_id: eventId,
+            attendee_name: registrant.name,
+            email: registrant.email,
+            phone: registrant.phone,
+            seats: registrant.seats || 1
+          })
+          .then(({ error }) => {
+            if (error) console.warn('Supabase event RSVP sync note:', error.message);
+          });
+      }
+
       notify(
         'RSVP Confirmed',
         `You have reserved ${registrant.seats} seat(s). We look forward to welcoming you!`,

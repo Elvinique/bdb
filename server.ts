@@ -4,7 +4,8 @@ import dotenv from 'dotenv';
 import { GoogleGenAI } from '@google/genai';
 import { createServer as createViteServer } from 'vite';
 
-dotenv.config();
+dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
+dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
 const app = express();
 const PORT = 3000;
@@ -67,7 +68,7 @@ app.post('/api/chat', async (req, res) => {
       }));
 
       const response = await ai.models.generateContent({
-        model: 'gemini-3.8-flash',
+        model: 'gemini-3.6-flash',
         contents,
         config: {
           systemInstruction: CAMPAIGN_SYSTEM_INSTRUCTION,
