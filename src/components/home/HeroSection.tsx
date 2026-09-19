@@ -176,12 +176,6 @@ export const HeroSection: React.FC = () => {
                   </div>
                 </div>
               </div>
-
-              {/* Floating trust pill */}
-              <div className="absolute -top-3 -left-3 sm:-left-5 hidden sm:flex items-center gap-2 bg-stone-900/95 border border-emerald-700/60 text-white px-3 py-1.5 rounded-xl shadow-xl backdrop-blur-md">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-xs font-semibold text-emerald-200">"Let's Build As One"</span>
-              </div>
             </div>
           </div>
 
