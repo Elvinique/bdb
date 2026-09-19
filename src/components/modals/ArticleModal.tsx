@@ -75,7 +75,13 @@ export const ArticleModal: React.FC = () => {
             <p className="text-lg font-editorial italic text-stone-800 border-l-4 border-emerald-600 pl-4 py-1">
               "{selectedArticle.excerpt}"
             </p>
-            <p>{selectedArticle.content}</p>
+            {Array.isArray(selectedArticle.content) ? (
+              selectedArticle.content.map((paragraph, idx) => (
+                <p key={idx}>{paragraph}</p>
+              ))
+            ) : (
+              <p>{selectedArticle.content}</p>
+            )}
             <p>
               In our conversations with ward leaders, artisans, and youth representatives, one truth remains paramount: sustainable representation is not an occasional visit during elections; it is a permanent covenant of mutual respect and accountable stewardship.
             </p>

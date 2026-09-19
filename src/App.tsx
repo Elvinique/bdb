@@ -36,6 +36,7 @@ import { PriorityDeepDiveModal } from './components/modals/PriorityDeepDiveModal
 import { EventRsvpModal } from './components/modals/EventRsvpModal';
 import { ArticleModal } from './components/modals/ArticleModal';
 import { LegalModal } from './components/modals/LegalModal';
+import { CandidateConfigModal } from './components/modals/CandidateConfigModal';
 
 // Toast Notification View
 import { CheckCircle2, AlertCircle, Info, X } from 'lucide-react';
@@ -133,7 +134,7 @@ const CampaignApp: React.FC = () => {
           </>
         )}
 
-        {currentPage === 'priorities' && (
+        {(currentPage === 'vision' || currentPage === 'priorities') && (
           <>
             <VisionPrioritiesSection />
             <InteractivePlanSection />
@@ -191,6 +192,7 @@ const CampaignApp: React.FC = () => {
       <EventRsvpModal />
       <ArticleModal />
       <LegalModal />
+      <CandidateConfigModal />
 
       {/* Global Campaign AI Assistant (Multi-turn Gemini Chatbot) */}
       <CampaignChatbot />

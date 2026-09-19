@@ -110,6 +110,93 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
+// Volunteer Registration API
+app.post('/api/volunteers', (req, res) => {
+  const { fullName, email, phone, lga, ward, community, areas } = req.body;
+  if (!fullName || !email || !phone) {
+    return res.status(400).json({ error: 'Full name, email, and phone are required.' });
+  }
+  const volunteerId = `VOL-${Math.floor(100 + Math.random() * 900)}`;
+  return res.status(201).json({
+    success: true,
+    id: volunteerId,
+    message: `Thank you, ${fullName}! Your volunteer profile has been recorded.`,
+    data: { id: volunteerId, fullName, email, phone, lga, ward, community, areas, status: 'Active' }
+  });
+});
+
+// Community Voice / Issue Feedback API
+app.post('/api/community-feedback', (req, res) => {
+  const { fullName, email, phone, lga, ward, community, topic, message } = req.body;
+  if (!fullName || !message || !community) {
+    return res.status(400).json({ error: 'Full name, community, and message are required.' });
+  }
+  const feedbackId = `CFB-${Math.floor(100 + Math.random() * 900)}`;
+  return res.status(201).json({
+    success: true,
+    id: feedbackId,
+    message: `Community concern on "${topic || 'General'}" logged successfully.`,
+    data: { id: feedbackId, fullName, email, phone, lga, ward, community, topic, message, status: 'Logged for Manifesto' }
+  });
+});
+
+// Event RSVP API
+app.post('/api/events/rsvp', (req, res) => {
+  const { eventId, name, email, phone, seats } = req.body;
+  if (!eventId || !name || !email) {
+    return res.status(400).json({ error: 'Event ID, name, and email are required.' });
+  }
+  const passCode = `PASS-${Math.floor(100000 + Math.random() * 900000)}`;
+  return res.status(201).json({
+    success: true,
+    passCode,
+    message: `Reservation confirmed for ${seats || 1} attendee(s).`,
+    data: { passCode, eventId, name, email, phone, seats: seats || 1 }
+  });
+});
+
+// Donation Initialization with PRD Compliance Limits Gate
+app.post('/api/donations/initialize', (req, res) => {
+  const { donorName, email, phone, amount, paymentMethod, declarationsAccepted } = req.body;
+  if (!declarationsAccepted) {
+    return res.status(400).json({ error: 'Electoral Act statutory declarations must be accepted before contribution.' });
+  }
+  const numericAmount = Number(amount);
+  if (isNaN(numericAmount) || numericAmount < 500) {
+    return res.status(400).json({ error: 'Minimum contribution amount is ₦500.' });
+  }
+  if (numericAmount > 50000000) {
+    return res.status(400).json({ error: 'Donation exceeds individual statutory maximum of ₦50,000,000 under the Electoral Act 2022.' });
+  }
+
+  const reference = `TX-BDB-${Date.now()}-${Math.floor(1000 + Math.random() * 9000)}`;
+  return res.status(200).json({
+    success: true,
+    reference,
+    amount: numericAmount,
+    currency: 'NGN',
+    donorName,
+    email,
+    paymentMethod: paymentMethod || 'card',
+    authorizationUrl: `https://checkout.paystack.com/sandbox-demo?reference=${reference}`,
+    message: 'Donation transaction initiated in compliance sandbox mode.'
+  });
+});
+
+// Statutory Compliance Configuration Endpoint
+app.get('/api/compliance/config', (_req, res) => {
+  return res.json({
+    office: 'HOUSE_OF_REPRESENTATIVES',
+    constituency: 'Khana/Gokana Federal Constituency',
+    state: 'Rivers State',
+    expenditureLimitNgn: 100000000,
+    individualContributionLimitNgn: 50000000,
+    statutoryAuthority: 'Electoral Act 2022, Section 88(4)',
+    liveFundraisingEnabled: false,
+    sandboxProvider: 'paystack_sandbox'
+  });
+});
+
 // Start Express server and attach Vite middleware
 async function start() {
   if (process.env.NODE_ENV !== 'production') {

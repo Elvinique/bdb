@@ -141,7 +141,9 @@ export interface DonationRecord {
   state?: string;
   paymentMethod: string;
   reference: string;
+  referenceCode?: string;
   date: string;
+  timestamp?: string;
   status: 'Completed' | 'Pending' | 'Verified';
 }
 
@@ -153,7 +155,11 @@ export interface VolunteerRecord {
   lga: string;
   ward: string;
   community: string;
-  areas: string[];
+  areas?: string[];
+  interests?: string[];
+  availability?: string;
+  skills?: string;
+  message?: string;
   dateJoined: string;
   status: 'Active' | 'Under Review' | 'Contacted';
 }
@@ -185,3 +191,39 @@ export interface TransparencyData {
     color: string;
   }[];
 }
+
+export interface CampaignFinanceConfig {
+  office: 'HOUSE_OF_REPRESENTATIVES';
+  constituency: string;
+  expenditureLimitNgn: number | null;
+  individualContributionLimitNgn: number | null;
+  effectiveFrom: string | null;
+  legalAuthority: string | null;
+  reviewedAt: string | null;
+  reviewedBy: string | null;
+  enabled: boolean;
+}
+
+export type AdminRole =
+  | 'SUPER_ADMIN'
+  | 'CAMPAIGN_ADMIN'
+  | 'CONTENT_MANAGER'
+  | 'FINANCE_ADMIN'
+  | 'COMPLIANCE_OFFICER'
+  | 'VOLUNTEER_MANAGER'
+  | 'EVENTS_MANAGER'
+  | 'COMMUNICATIONS_MANAGER'
+  | 'VIEWER';
+
+export interface AuditLogRecord {
+  id: string;
+  actor: string;
+  role: AdminRole;
+  action: string;
+  resource: string;
+  resourceId?: string;
+  timestamp: string;
+  status: 'SUCCESS' | 'FLAGGED' | 'REVOKED';
+  details?: string;
+}
+

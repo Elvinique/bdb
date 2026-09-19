@@ -68,6 +68,7 @@ export const VolunteerModal: React.FC = () => {
       lga,
       ward: ward || 'Constituency General',
       community: community || 'Urban Central',
+      areas: selectedInterests,
       interests: selectedInterests,
       availability,
       skills: skills || 'General Grassroots Support',

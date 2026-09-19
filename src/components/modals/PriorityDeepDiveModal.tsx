@@ -34,7 +34,7 @@ export const PriorityDeepDiveModal: React.FC = () => {
         <div className="p-6 sm:p-8 max-h-[75vh] overflow-y-auto space-y-6">
           
           <p className="text-base text-stone-700 leading-relaxed font-normal">
-            {selectedPriority.fullDescription}
+            {selectedPriority.detailedDescription}
           </p>
 
           {/* 3 Pillars Breakdown */}

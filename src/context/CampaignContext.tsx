@@ -7,7 +7,10 @@ import {
   DonationRecord,
   VolunteerRecord,
   CommunityFeedbackRecord,
-  TransparencyData
+  TransparencyData,
+  CampaignFinanceConfig,
+  AuditLogRecord,
+  AdminRole
 } from '../types';
 import {
   PLACEHOLDER_CONFIG,
@@ -23,6 +26,7 @@ export type AppView =
   | 'home'
   | 'about'
   | 'vision'
+  | 'priorities'
   | 'constituency'
   | 'news'
   | 'events'
@@ -38,14 +42,56 @@ export interface ToastNotification {
   type: 'success' | 'info' | 'warning';
 }
 
+export const DEFAULT_FINANCE_CONFIG: CampaignFinanceConfig = {
+  office: 'HOUSE_OF_REPRESENTATIVES',
+  constituency: 'Khana/Gokana Federal Constituency',
+  expenditureLimitNgn: 100000000, // Electoral Act limit for House of Reps
+  individualContributionLimitNgn: 50000000,
+  effectiveFrom: '2026-01-01',
+  legalAuthority: 'Electoral Act 2022, Section 88(4)',
+  reviewedAt: '2026-09-19',
+  reviewedBy: 'Legal & Compliance Directorate (NNPP Rivers)',
+  enabled: false // PRD Section 18 & 52: disabled until verified compliance sign-off
+};
+
+export const INITIAL_AUDIT_LOGS: AuditLogRecord[] = [
+  {
+    id: 'aud-001',
+    actor: 'admin@buradumforhouse.ng',
+    role: 'SUPER_ADMIN',
+    action: 'SYSTEM_INITIALIZATION',
+    resource: 'CAMPAIGN_PLATFORM',
+    resourceId: 'SYS-2027',
+    timestamp: '2026-09-19 12:00:00 WAT',
+    status: 'SUCCESS',
+    details: 'Campaign digital operations hub initialized with Khana/Gokana 36-ward structure.'
+  },
+  {
+    id: 'aud-002',
+    actor: 'legal@buradumforhouse.ng',
+    role: 'COMPLIANCE_OFFICER',
+    action: 'COMPLIANCE_REVIEW_LOCKED',
+    resource: 'FINANCE_CONFIG',
+    resourceId: 'ELECTORAL-ACT-2022',
+    timestamp: '2026-09-19 14:30:00 WAT',
+    status: 'SUCCESS',
+    details: 'Fundraising build gate verified. Live processing disabled pending bank merchant validation.'
+  }
+];
+
 interface CampaignContextType {
   config: CampaignConfig;
   isSampleMode: boolean;
+  isSampleProfile: boolean;
   setIsSampleMode: (val: boolean) => void;
+  toggleProfileMode: () => void;
   updateConfigField: (field: keyof CampaignConfig, val: any) => void;
-  
+  updateCandidateConfig: (partial: Partial<CampaignConfig>) => void;
+
   activeView: AppView;
+  currentPage: AppView;
   setActiveView: (view: AppView) => void;
+  setCurrentPage: (view: AppView) => void;
   navigateTo: (view: AppView, elementId?: string) => void;
 
   // Modals
@@ -65,17 +111,35 @@ interface CampaignContextType {
   setIsLegalModalOpen: (open: boolean) => void;
   legalModalTab: 'finance' | 'terms' | 'privacy';
   setLegalModalTab: (tab: 'finance' | 'terms' | 'privacy') => void;
+  isConfigModalOpen: boolean;
+  setIsConfigModalOpen: (open: boolean) => void;
 
   // Interactive Live Data
   donations: DonationRecord[];
+  donationRecords: DonationRecord[];
   addDonation: (donation: Omit<DonationRecord, 'id' | 'date' | 'reference' | 'status'>) => DonationRecord;
+  updateDonationStatus: (id: string, status: DonationRecord['status']) => void;
+
   volunteers: VolunteerRecord[];
+  volunteersList: VolunteerRecord[];
   addVolunteer: (vol: Omit<VolunteerRecord, 'id' | 'dateJoined' | 'status'>) => VolunteerRecord;
+  updateVolunteerStatus: (id: string, status: VolunteerRecord['status']) => void;
+
   feedbackList: CommunityFeedbackRecord[];
   addFeedback: (item: Omit<CommunityFeedbackRecord, 'id' | 'dateSubmitted' | 'status'>) => CommunityFeedbackRecord;
+  updateFeedbackStatus: (id: string, status: CommunityFeedbackRecord['status']) => void;
+
   events: CampaignEvent[];
   registerForEvent: (eventId: string, registrant: { name: string; email: string; phone: string; seats: number }) => boolean;
   transparencyData: TransparencyData;
+
+  // Compliance & Audit
+  campaignFinanceConfig: CampaignFinanceConfig;
+  setCampaignFinanceConfig: (config: CampaignFinanceConfig) => void;
+  fundraisingEnabled: boolean;
+  setFundraisingEnabled: (val: boolean) => void;
+  auditLogs: AuditLogRecord[];
+  addAuditLog: (log: Omit<AuditLogRecord, 'id' | 'timestamp'>) => void;
 
   // Feedback Notifications
   notifications: ToastNotification[];
@@ -86,7 +150,7 @@ interface CampaignContextType {
 const CampaignContext = createContext<CampaignContextType | undefined>(undefined);
 
 export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [isSampleMode, setIsSampleMode] = useState<boolean>(true); // Start with realistic presentation sample so it looks stunning immediately, with one-click toggle to raw placeholders
+  const [isSampleMode, setIsSampleMode] = useState<boolean>(true);
   const [customConfig, setCustomConfig] = useState<CampaignConfig>(SAMPLE_CANDIDATE_CONFIG);
   const [activeView, setActiveView] = useState<AppView>('home');
 
@@ -99,13 +163,19 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [donationPresetAmount, setDonationPresetAmount] = useState<number | null>(null);
   const [isLegalModalOpen, setIsLegalModalOpen] = useState<boolean>(false);
   const [legalModalTab, setLegalModalTab] = useState<'finance' | 'terms' | 'privacy'>('finance');
+  const [isConfigModalOpen, setIsConfigModalOpen] = useState<boolean>(false);
 
-  // Interactive records
+  // Records
   const [donations, setDonations] = useState<DonationRecord[]>(INITIAL_DONATIONS);
   const [volunteers, setVolunteers] = useState<VolunteerRecord[]>(INITIAL_VOLUNTEERS);
   const [feedbackList, setFeedbackList] = useState<CommunityFeedbackRecord[]>(INITIAL_FEEDBACK);
   const [events, setEvents] = useState<CampaignEvent[]>(CAMPAIGN_EVENTS);
   const [transparencyData, setTransparencyData] = useState<TransparencyData>(INITIAL_TRANSPARENCY_DATA);
+
+  // Compliance & Audit
+  const [campaignFinanceConfig, setCampaignFinanceConfig] = useState<CampaignFinanceConfig>(DEFAULT_FINANCE_CONFIG);
+  const [fundraisingEnabled, setFundraisingEnabled] = useState<boolean>(false);
+  const [auditLogs, setAuditLogs] = useState<AuditLogRecord[]>(INITIAL_AUDIT_LOGS);
 
   // Notifications
   const [notifications, setNotifications] = useState<ToastNotification[]>([]);
@@ -126,6 +196,10 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   const currentConfig = isSampleMode ? customConfig : PLACEHOLDER_CONFIG;
 
+  const toggleProfileMode = () => {
+    setIsSampleMode((prev) => !prev);
+  };
+
   const updateConfigField = (field: keyof CampaignConfig, val: any) => {
     setCustomConfig((prev) => ({
       ...prev,
@@ -133,9 +207,16 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
     }));
   };
 
+  const updateCandidateConfig = (partial: Partial<CampaignConfig>) => {
+    setCustomConfig((prev) => ({
+      ...prev,
+      ...partial
+    }));
+  };
+
   const navigateTo = (view: AppView, elementId?: string) => {
     setActiveView(view);
-    if (view === 'home' && elementId) {
+    if ((view === 'home' || view === 'about' || view === 'vision' || view === 'constituency') && elementId) {
       setTimeout(() => {
         const el = document.getElementById(elementId);
         if (el) {
@@ -145,6 +226,15 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+  };
+
+  const addAuditLog = (log: Omit<AuditLogRecord, 'id' | 'timestamp'>) => {
+    const newEntry: AuditLogRecord = {
+      ...log,
+      id: `aud-${Date.now()}`,
+      timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19) + ' WAT'
+    };
+    setAuditLogs((prev) => [newEntry, ...prev]);
   };
 
   const addDonation = (donationData: Omit<DonationRecord, 'id' | 'date' | 'reference' | 'status'>): DonationRecord => {
@@ -161,12 +251,37 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
       totalContributionsAmount: prev.totalContributionsAmount + donationData.amount,
       supporterCount: prev.supporterCount + 1
     }));
+    addAuditLog({
+      actor: donationData.donorName,
+      role: 'VIEWER',
+      action: 'DONATION_RECORDED',
+      resource: 'DONATIONS',
+      resourceId: newRecord.reference,
+      status: 'SUCCESS',
+      details: `Donation of ₦${donationData.amount.toLocaleString()} received via ${donationData.paymentMethod}.`
+    });
     notify(
-      'Donation Confirmed (Prototype)',
+      'Donation Confirmed',
       `Thank you, ${donationData.donorName}! ₦${donationData.amount.toLocaleString()} received for the campaign. Reference: ${newRecord.reference}`,
       'success'
     );
     return newRecord;
+  };
+
+  const updateDonationStatus = (id: string, status: DonationRecord['status']) => {
+    setDonations((prev) =>
+      prev.map((d) => (d.id === id ? { ...d, status } : d))
+    );
+    addAuditLog({
+      actor: 'finance_admin',
+      role: 'FINANCE_ADMIN',
+      action: 'DONATION_STATUS_CHANGE',
+      resource: 'DONATIONS',
+      resourceId: id,
+      status: 'SUCCESS',
+      details: `Donation ${id} status updated to ${status}`
+    });
+    notify('Status Updated', `Donation ${id} updated to ${status}.`, 'info');
   };
 
   const addVolunteer = (volData: Omit<VolunteerRecord, 'id' | 'dateJoined' | 'status'>): VolunteerRecord => {
@@ -181,12 +296,28 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
       ...prev,
       activeVolunteers: prev.activeVolunteers + 1
     }));
+    addAuditLog({
+      actor: volData.fullName,
+      role: 'VIEWER',
+      action: 'VOLUNTEER_REGISTERED',
+      resource: 'VOLUNTEERS',
+      resourceId: newVol.id,
+      status: 'SUCCESS',
+      details: `Volunteer registered in ${volData.lga} (Ward: ${volData.ward}).`
+    });
     notify(
       'Welcome to the Movement!',
       `Thank you, ${volData.fullName}! Your volunteer profile has been registered in the campaign system.`,
       'success'
     );
     return newVol;
+  };
+
+  const updateVolunteerStatus = (id: string, status: VolunteerRecord['status']) => {
+    setVolunteers((prev) =>
+      prev.map((v) => (v.id === id ? { ...v, status } : v))
+    );
+    notify('Volunteer Updated', `Volunteer status changed to ${status}.`, 'info');
   };
 
   const addFeedback = (itemData: Omit<CommunityFeedbackRecord, 'id' | 'dateSubmitted' | 'status'>): CommunityFeedbackRecord => {
@@ -197,12 +328,28 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
       status: 'Logged for Manifesto'
     };
     setFeedbackList((prev) => [newFeedback, ...prev]);
+    addAuditLog({
+      actor: itemData.fullName,
+      role: 'VIEWER',
+      action: 'COMMUNITY_FEEDBACK_SUBMITTED',
+      resource: 'COMMUNITY_FEEDBACK',
+      resourceId: newFeedback.id,
+      status: 'SUCCESS',
+      details: `Topic: ${itemData.topic} in ${itemData.lga}`
+    });
     notify(
       'Community Concern Logged',
       `Thank you for speaking up! Your feedback on "${itemData.topic}" has been transmitted to our policy team.`,
       'success'
     );
     return newFeedback;
+  };
+
+  const updateFeedbackStatus = (id: string, status: CommunityFeedbackRecord['status']) => {
+    setFeedbackList((prev) =>
+      prev.map((f) => (f.id === id ? { ...f, status } : f))
+    );
+    notify('Concern Updated', `Status changed to ${status}.`, 'info');
   };
 
   const registerForEvent = (eventId: string, registrant: { name: string; email: string; phone: string; seats: number }): boolean => {
@@ -220,6 +367,15 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
       })
     );
     if (found) {
+      addAuditLog({
+        actor: registrant.name,
+        role: 'VIEWER',
+        action: 'EVENT_RSVP_RESERVED',
+        resource: 'EVENTS',
+        resourceId: eventId,
+        status: 'SUCCESS',
+        details: `${registrant.seats} seat(s) reserved by ${registrant.name}.`
+      });
       notify(
         'RSVP Confirmed',
         `You have reserved ${registrant.seats} seat(s). We look forward to welcoming you!`,
@@ -234,10 +390,15 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
       value={{
         config: currentConfig,
         isSampleMode,
+        isSampleProfile: isSampleMode,
         setIsSampleMode,
+        toggleProfileMode,
         updateConfigField,
+        updateCandidateConfig,
         activeView,
+        currentPage: activeView,
         setActiveView,
+        setCurrentPage: setActiveView,
         navigateTo,
         selectedPriority,
         setSelectedPriority,
@@ -255,15 +416,28 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
         setIsLegalModalOpen,
         legalModalTab,
         setLegalModalTab,
+        isConfigModalOpen,
+        setIsConfigModalOpen,
         donations,
+        donationRecords: donations,
         addDonation,
+        updateDonationStatus,
         volunteers,
+        volunteersList: volunteers,
         addVolunteer,
+        updateVolunteerStatus,
         feedbackList,
         addFeedback,
+        updateFeedbackStatus,
         events,
         registerForEvent,
         transparencyData,
+        campaignFinanceConfig,
+        setCampaignFinanceConfig,
+        fundraisingEnabled,
+        setFundraisingEnabled,
+        auditLogs,
+        addAuditLog,
         notifications,
         dismissNotification,
         notify

@@ -202,7 +202,7 @@ export const HeroSection: React.FC = () => {
           >
             <div className="flex items-center justify-between pb-3 border-b border-stone-800">
               <div className="flex items-center gap-2">
-                <img src="/nnpp-logo.svg" alt="NNPP Logo" className="w-6 h-6 rounded-full bg-white object-contain p-0.5" referrerPolicy="no-referrer" />
+                <img src={config.partyLogoUrl || '/assets/images/party-logo.png'} alt="NNPP Logo" className="w-6 h-6 rounded-full bg-white object-contain p-0.5" referrerPolicy="no-referrer" />
                 <span className="font-bold text-sm text-white">Official Campaign Poster 2027</span>
               </div>
               <button
@@ -214,7 +214,7 @@ export const HeroSection: React.FC = () => {
             </div>
             <div className="mt-3 rounded-xl overflow-hidden bg-stone-950 border border-stone-800 flex items-center justify-center">
               <img
-                src="/candidate-official-poster.svg"
+                src={config.campaignPosterUrl || '/assets/images/official-poster.png'}
                 alt={`${config.candidateName} Official Campaign Poster`}
                 className="w-full max-h-[70vh] object-contain"
                 referrerPolicy="no-referrer"
@@ -223,8 +223,8 @@ export const HeroSection: React.FC = () => {
             <div className="mt-4 flex items-center justify-between text-xs text-stone-400">
               <span>Khana/Gokana Federal Constituency • Rivers State</span>
               <a
-                href="/candidate-official-poster.svg"
-                download="Engr-Buradum-Baribefe-Daniel-Official-Poster.svg"
+                href={config.campaignPosterUrl || '/assets/images/official-poster.png'}
+                download="Engr-Buradum-Baribefe-Daniel-Official-Poster.png"
                 className="px-3 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition"
               >
                 Download Poster

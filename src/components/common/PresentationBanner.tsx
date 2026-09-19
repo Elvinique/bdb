@@ -3,11 +3,11 @@ import { useCampaign } from '../../context/CampaignContext';
 import { Eye, Settings, ShieldAlert, Sparkles, LayoutDashboard, Check } from 'lucide-react';
 
 interface PresentationBannerProps {
-  onOpenConfigEditor: () => void;
+  onOpenConfigEditor?: () => void;
 }
 
 export const PresentationBanner: React.FC<PresentationBannerProps> = ({ onOpenConfigEditor }) => {
-  const { isSampleMode, setIsSampleMode, activeView, navigateTo } = useCampaign();
+  const { isSampleMode, setIsSampleMode, activeView, navigateTo, setIsConfigModalOpen } = useCampaign();
   const [dismissed, setDismissed] = useState(false);
 
   if (dismissed) {
@@ -70,7 +70,7 @@ export const PresentationBanner: React.FC<PresentationBannerProps> = ({ onOpenCo
           {/* Quick Config Editor */}
           <button
             id="edit-campaign-config-btn"
-            onClick={onOpenConfigEditor}
+            onClick={onOpenConfigEditor || (() => setIsConfigModalOpen(true))}
             className="flex items-center gap-1.5 bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white px-2.5 py-1 rounded-md border border-stone-700 transition text-[11px] font-medium"
             title="Edit Candidate Name, Constituency, Party, Slogan"
           >

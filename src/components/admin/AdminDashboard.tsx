@@ -16,7 +16,13 @@ import {
   Edit3,
   Save,
   RotateCcw,
-  Sparkles
+  Sparkles,
+  Shield,
+  ShieldCheck,
+  AlertTriangle,
+  FileSpreadsheet,
+  Lock,
+  FileText
 } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
@@ -26,15 +32,23 @@ export const AdminDashboard: React.FC = () => {
     isSampleProfile,
     toggleProfileMode,
     feedbackList,
+    updateFeedbackStatus,
     volunteersList,
+    updateVolunteerStatus,
     donationRecords,
+    updateDonationStatus,
     events,
     transparencyData,
+    campaignFinanceConfig,
+    setCampaignFinanceConfig,
+    fundraisingEnabled,
+    setFundraisingEnabled,
+    auditLogs,
     setCurrentPage,
     notify
   } = useCampaign();
 
-  const [activeTab, setActiveTab] = useState<'overview' | 'concerns' | 'volunteers' | 'donations' | 'settings'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'concerns' | 'volunteers' | 'donations' | 'audit' | 'compliance' | 'settings'>('overview');
 
   // Candidate quick editor state
   const [candidateNameInput, setCandidateNameInput] = useState(config.candidateName);
@@ -65,6 +79,78 @@ export const AdminDashboard: React.FC = () => {
   };
 
   const totalDonationAmount = donationRecords.reduce((sum, d) => sum + d.amount, 0);
+
+  const downloadCsv = (filename: string, rows: (string | number)[][]) => {
+    const csvContent =
+      'data:text/csv;charset=utf-8,' +
+      rows
+        .map((row) =>
+          row
+            .map((cell) => `"${(cell ?? '').toString().replace(/"/g, '""')}"`)
+            .join(',')
+        )
+        .join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const exportVolunteersCsv = () => {
+    const headers = ['ID', 'Full Name', 'Email', 'Phone', 'LGA', 'Ward', 'Community', 'Areas', 'Status', 'Date Joined'];
+    const rows = volunteersList.map((v) => [
+      v.id,
+      v.fullName,
+      v.email,
+      v.phone,
+      v.lga,
+      v.ward,
+      v.community,
+      (v.areas || v.interests || []).join('; '),
+      v.status,
+      v.dateJoined
+    ]);
+    downloadCsv('khana-gokana-volunteers.csv', [headers, ...rows]);
+    notify('Export Completed', 'Volunteers roster exported to CSV.', 'success');
+  };
+
+  const exportConcernsCsv = () => {
+    const headers = ['ID', 'Citizen Name', 'Phone', 'LGA', 'Ward', 'Community', 'Topic', 'Message', 'Status', 'Date Submitted'];
+    const rows = feedbackList.map((f) => [
+      f.id,
+      f.fullName,
+      f.phone || '',
+      f.lga,
+      f.ward,
+      f.community,
+      f.topic,
+      f.message,
+      f.status,
+      f.dateSubmitted
+    ]);
+    downloadCsv('community-voice-concerns.csv', [headers, ...rows]);
+    notify('Export Completed', 'Community voice records exported to CSV.', 'success');
+  };
+
+  const exportDonationsCsv = () => {
+    const headers = ['ID', 'Reference', 'Donor Name', 'Email', 'Amount (NGN)', 'Method', 'LGA', 'Status', 'Date'];
+    const rows = donationRecords.map((d) => [
+      d.id,
+      d.reference || d.referenceCode || '',
+      d.donorName,
+      d.email,
+      d.amount,
+      d.paymentMethod,
+      d.lga || '',
+      d.status,
+      d.date || d.timestamp || ''
+    ]);
+    downloadCsv('campaign-donations-ledger.csv', [headers, ...rows]);
+    notify('Export Completed', 'Donations ledger exported to CSV.', 'success');
+  };
 
   return (
     <div className="min-h-screen bg-stone-900 text-stone-100 font-sans">
@@ -167,6 +253,30 @@ export const AdminDashboard: React.FC = () => {
           >
             <Heart className="w-4 h-4" />
             <span>Grassroots Finance ({donationRecords.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('compliance')}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shrink-0 ${
+              activeTab === 'compliance'
+                ? 'bg-emerald-700 text-white shadow-md'
+                : 'bg-stone-800 text-stone-300 hover:text-white'
+            }`}
+          >
+            <Shield className="w-4 h-4" />
+            <span>Compliance & Gates</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('audit')}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shrink-0 ${
+              activeTab === 'audit'
+                ? 'bg-emerald-700 text-white shadow-md'
+                : 'bg-stone-800 text-stone-300 hover:text-white'
+            }`}
+          >
+            <FileText className="w-4 h-4" />
+            <span>Audit Trail ({auditLogs.length})</span>
           </button>
 
           <button
@@ -274,7 +384,7 @@ export const AdminDashboard: React.FC = () => {
                       <p className="text-stone-300 line-clamp-2">"{item.message}"</p>
                       <div className="flex justify-between text-[11px] text-stone-500 pt-1">
                         <span>{item.lga} • {item.ward}</span>
-                        <span>{item.timestamp}</span>
+                        <span>{item.dateSubmitted}</span>
                       </div>
                     </div>
                   ))}
@@ -339,7 +449,14 @@ export const AdminDashboard: React.FC = () => {
                 </p>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={exportConcernsCsv}
+                  className="px-3 py-1.5 bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white rounded-lg text-xs font-semibold transition flex items-center gap-1.5 border border-stone-700"
+                >
+                  <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Export CSV</span>
+                </button>
                 <span className="text-xs text-stone-400">
                   Total Logged: <strong>{feedbackList.length}</strong>
                 </span>
@@ -404,7 +521,14 @@ export const AdminDashboard: React.FC = () => {
                 </p>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={exportVolunteersCsv}
+                  className="px-3 py-1.5 bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white rounded-lg text-xs font-semibold transition flex items-center gap-1.5 border border-stone-700"
+                >
+                  <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Export CSV</span>
+                </button>
                 <span className="text-xs text-stone-400">
                   Total Active: <strong>{volunteersList.length}</strong>
                 </span>
@@ -436,10 +560,10 @@ export const AdminDashboard: React.FC = () => {
                         <span className="block text-[10px] text-stone-500">{vol.ward}</span>
                       </td>
                       <td className="py-3 px-3 text-stone-300">
-                        {vol.availability}
+                        {vol.availability || 'Weekends'}
                       </td>
                       <td className="py-3 px-3 text-stone-300 max-w-xs">
-                        {vol.interests.join(', ')}
+                        {(vol.interests || vol.areas || []).join(', ')}
                       </td>
                       <td className="py-3 px-3 text-stone-400">
                         {vol.skills || 'General Grassroots'}
@@ -465,8 +589,17 @@ export const AdminDashboard: React.FC = () => {
                 </p>
               </div>
 
-              <div className="text-xs text-emerald-400 font-bold bg-emerald-950 px-3 py-1.5 rounded-lg border border-emerald-800">
-                Ledger Balance: ₦{totalDonationAmount.toLocaleString()}
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={exportDonationsCsv}
+                  className="px-3 py-1.5 bg-stone-800 hover:bg-stone-700 text-stone-200 hover:text-white rounded-lg text-xs font-semibold transition flex items-center gap-1.5 border border-stone-700"
+                >
+                  <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Export CSV</span>
+                </button>
+                <div className="text-xs text-emerald-400 font-bold bg-emerald-950 px-3 py-1.5 rounded-lg border border-emerald-800">
+                  Ledger Balance: ₦{totalDonationAmount.toLocaleString()}
+                </div>
               </div>
             </div>
 
@@ -486,7 +619,7 @@ export const AdminDashboard: React.FC = () => {
                 <tbody className="divide-y divide-stone-800/60">
                   {donationRecords.map((don) => (
                     <tr key={don.id} className="hover:bg-stone-900/50 transition">
-                      <td className="py-3 px-3 font-mono text-emerald-400">{don.referenceCode}</td>
+                      <td className="py-3 px-3 font-mono text-emerald-400">{don.reference || don.referenceCode}</td>
                       <td className="py-3 px-3 font-semibold text-white">
                         {don.donorName}
                         <span className="block text-[10px] text-stone-500">{don.email}</span>
@@ -495,8 +628,8 @@ export const AdminDashboard: React.FC = () => {
                         ₦{don.amount.toLocaleString()}
                       </td>
                       <td className="py-3 px-3 text-stone-300">{don.paymentMethod}</td>
-                      <td className="py-3 px-3 text-stone-300">{don.lga}</td>
-                      <td className="py-3 px-3 text-stone-400 font-mono text-[11px]">{don.timestamp}</td>
+                      <td className="py-3 px-3 text-stone-300">{don.lga || 'Khana'}</td>
+                      <td className="py-3 px-3 text-stone-400 font-mono text-[11px]">{don.date || don.timestamp}</td>
                       <td className="py-3 px-3">
                         <span className="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 text-[10px]">
                           INEC OK
@@ -510,7 +643,185 @@ export const AdminDashboard: React.FC = () => {
           </div>
         )}
 
-        {/* 5. SETTINGS / CANDIDATE DATA EDITOR TAB */}
+        {/* 5. COMPLIANCE & GATES TAB (PRD Section 18 & 52) */}
+        {activeTab === 'compliance' && (
+          <div className="space-y-6 animate-in fade-in">
+            <div className="p-6 rounded-2xl bg-stone-950 border border-stone-800 space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                    <Shield className="w-5 h-5 text-emerald-400" />
+                    <span>Legal & Campaign Finance Compliance Build Gate</span>
+                  </h3>
+                  <p className="text-xs text-stone-400">
+                    Mandatory regulatory safeguards mandated by PRD Sections 18 & 52 and the Nigerian Electoral Act 2022.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <span className={`px-3 py-1 rounded-full text-xs font-bold border ${
+                    fundraisingEnabled
+                      ? 'bg-emerald-950 text-emerald-300 border-emerald-700'
+                      : 'bg-amber-950 text-amber-300 border-amber-700'
+                  }`}>
+                    {fundraisingEnabled ? '● LIVE FUNDRAISING ACTIVE' : '○ FUNDRAISING GATE LOCKED (SAFE)'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Build Gate Warning Notice */}
+              <div className="p-4 rounded-xl bg-amber-950/40 border border-amber-800/60 text-xs text-amber-200 space-y-1.5">
+                <div className="flex items-center gap-2 font-bold text-amber-300">
+                  <AlertTriangle className="w-4 h-4 text-amber-400" />
+                  <span>Statutory Compliance Notice</span>
+                </div>
+                <p className="text-stone-300 leading-relaxed">
+                  In compliance with Section 88(4) of the Electoral Act 2022, no individual or entity shall donate more than the statutory limit to any candidate contesting the Federal House of Representatives. Live production fundraising must remain disabled until bank merchant documentation and legal certification are finalized.
+                </p>
+              </div>
+
+              {/* Compliance Parameters Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
+                <div className="p-4 rounded-xl bg-stone-900 border border-stone-800 space-y-1">
+                  <span className="text-[11px] text-stone-500 uppercase tracking-wider block">Office Contested</span>
+                  <span className="text-sm font-bold text-white">{campaignFinanceConfig.office}</span>
+                  <span className="text-[10px] text-emerald-400 block">{campaignFinanceConfig.constituency}</span>
+                </div>
+
+                <div className="p-4 rounded-xl bg-stone-900 border border-stone-800 space-y-1">
+                  <span className="text-[11px] text-stone-500 uppercase tracking-wider block">Statutory Expenditure Limit</span>
+                  <span className="text-sm font-bold text-white">₦{campaignFinanceConfig.expenditureLimitNgn?.toLocaleString()}</span>
+                  <span className="text-[10px] text-stone-400 block">Electoral Act 2022 § 88(4)</span>
+                </div>
+
+                <div className="p-4 rounded-xl bg-stone-900 border border-stone-800 space-y-1">
+                  <span className="text-[11px] text-stone-500 uppercase tracking-wider block">Individual Donation Cap</span>
+                  <span className="text-sm font-bold text-white">₦{campaignFinanceConfig.individualContributionLimitNgn?.toLocaleString()}</span>
+                  <span className="text-[10px] text-stone-400 block">Max single donor limit</span>
+                </div>
+
+                <div className="p-4 rounded-xl bg-stone-900 border border-stone-800 space-y-1">
+                  <span className="text-[11px] text-stone-500 uppercase tracking-wider block">Payment Provider Sandbox</span>
+                  <span className="text-sm font-bold text-white">Paystack / Flutterwave</span>
+                  <span className="text-[10px] text-emerald-400 block">Simulated NGN Transfer & Card</span>
+                </div>
+
+                <div className="p-4 rounded-xl bg-stone-900 border border-stone-800 space-y-1">
+                  <span className="text-[11px] text-stone-500 uppercase tracking-wider block">Legal Review Authority</span>
+                  <span className="text-sm font-bold text-white">{campaignFinanceConfig.legalAuthority}</span>
+                  <span className="text-[10px] text-stone-400 block">{campaignFinanceConfig.reviewedBy}</span>
+                </div>
+
+                <div className="p-4 rounded-xl bg-stone-900 border border-stone-800 space-y-1">
+                  <span className="text-[11px] text-stone-500 uppercase tracking-wider block">Prohibited Contributions</span>
+                  <span className="text-sm font-bold text-white">Foreign / Anonymous Funds</span>
+                  <span className="text-[10px] text-rose-400 block">Strictly Rejected & Audited</span>
+                </div>
+              </div>
+
+              {/* Build Gate Toggle Control */}
+              <div className="pt-4 border-t border-stone-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <p className="text-xs font-bold text-white">Live Public Fundraising Gate</p>
+                  <p className="text-[11px] text-stone-400">
+                    Toggle live contribution processing mode. When disabled, public visitors can view compliance details and bank transfer info for manual clearance.
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => {
+                    const next = !fundraisingEnabled;
+                    setFundraisingEnabled(next);
+                    notify(
+                      next ? 'Fundraising Gate Opened' : 'Fundraising Gate Locked',
+                      next ? 'Live contribution simulation is now active.' : 'Fundraising gate locked in compliance mode.',
+                      next ? 'warning' : 'info'
+                    );
+                  }}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+                    fundraisingEnabled
+                      ? 'bg-amber-600 hover:bg-amber-500 text-white'
+                      : 'bg-emerald-700 hover:bg-emerald-600 text-white'
+                  }`}
+                >
+                  <Lock className="w-3.5 h-3.5" />
+                  <span>{fundraisingEnabled ? 'Lock Fundraising Gate' : 'Enable Donation Simulator'}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 6. AUDIT TRAIL TAB (PRD Section 24 & 39) */}
+        {activeTab === 'audit' && (
+          <div className="p-6 rounded-2xl bg-stone-950 border border-stone-800 space-y-6 animate-in fade-in">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                  <FileText className="w-5 h-5 text-emerald-400" />
+                  <span>Immutable System Audit Trail</span>
+                </h3>
+                <p className="text-xs text-stone-400">
+                  Cryptographic log of administrative actions, volunteer submissions, and financial status changes.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-stone-400">
+                  Total Logged Actions: <strong>{auditLogs.length}</strong>
+                </span>
+              </div>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="border-b border-stone-800 text-stone-400 uppercase tracking-wider text-[10px]">
+                    <th className="py-3 px-3">Log ID</th>
+                    <th className="py-3 px-3">Actor & Role</th>
+                    <th className="py-3 px-3">Action</th>
+                    <th className="py-3 px-3">Resource</th>
+                    <th className="py-3 px-3">Details</th>
+                    <th className="py-3 px-3">Timestamp</th>
+                    <th className="py-3 px-3">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-stone-800/60 font-mono">
+                  {auditLogs.map((log) => (
+                    <tr key={log.id} className="hover:bg-stone-900/50 transition">
+                      <td className="py-3 px-3 text-emerald-400 font-bold">{log.id}</td>
+                      <td className="py-3 px-3 text-stone-200">
+                        <span className="font-sans font-semibold block">{log.actor}</span>
+                        <span className="text-[10px] text-stone-500">{log.role}</span>
+                      </td>
+                      <td className="py-3 px-3">
+                        <span className="px-2 py-0.5 rounded bg-stone-900 text-stone-300 border border-stone-800 text-[10px]">
+                          {log.action}
+                        </span>
+                      </td>
+                      <td className="py-3 px-3 text-stone-400">{log.resource}</td>
+                      <td className="py-3 px-3 font-sans text-stone-300 max-w-xs truncate" title={log.details}>
+                        {log.details || '—'}
+                      </td>
+                      <td className="py-3 px-3 text-stone-400 text-[10px] whitespace-nowrap">{log.timestamp}</td>
+                      <td className="py-3 px-3">
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                          log.status === 'SUCCESS'
+                            ? 'bg-emerald-950 text-emerald-300 border border-emerald-800'
+                            : 'bg-rose-950 text-rose-300 border border-rose-800'
+                        }`}>
+                          {log.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* 7. SETTINGS / CANDIDATE DATA EDITOR TAB */}
         {activeTab === 'settings' && (
           <div className="max-w-3xl p-6 sm:p-8 rounded-2xl bg-stone-950 border border-stone-800 space-y-6 animate-in fade-in">
             <div className="space-y-1">

@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 
 export const EventRsvpModal: React.FC = () => {
-  const { selectedEventForRsvp, setSelectedEventForRsvp, notify } = useCampaign();
+  const { selectedEventForRsvp, setSelectedEventForRsvp, registerForEvent, notify } = useCampaign();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -28,9 +28,15 @@ export const EventRsvpModal: React.FC = () => {
       return;
     }
 
+    registerForEvent(selectedEventForRsvp.id, {
+      name,
+      email,
+      phone,
+      seats
+    });
+
     const code = `PASS-${Math.floor(100000 + Math.random() * 900000)}`;
     setConfirmedPass(code);
-    notify('Reservation Confirmed', `Seat reserved for ${selectedEventForRsvp.title}.`, 'success');
   };
 
   const handleClose = () => {
