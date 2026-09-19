@@ -178,9 +178,6 @@ export const CampaignChatbot: React.FC = () => {
                   <h3 className="text-xs font-bold text-white tracking-tight">
                     Beacon AI • Campaign Assistant
                   </h3>
-                  <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-900 text-emerald-300 border border-emerald-700">
-                    GEMINI 3.8
-                  </span>
                 </div>
                 <p className="text-[11px] text-stone-400 line-clamp-1">
                   Engr. Buradum Baribefe Daniel (NNPP 2027)
