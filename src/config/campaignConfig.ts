@@ -28,7 +28,7 @@ export const PLACEHOLDER_CONFIG: CampaignConfig = {
   candidatePhotoUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
   candidateSecondaryPhotoUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80',
   heroPhotoUrl: 'https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=1400&q=80',
-  communityPhotoUrl: 'https://images.unsplash.com/photo-1577962917302-cd874c4e31d2?auto=format&fit=crop&w=1200&q=80',
+  communityPhotoUrl: '/assets/images/bori-youth-empowerment-workshop.jpg',
   socialLinks: {
     facebook: 'https://facebook.com/campaign',
     twitter: 'https://x.com/campaign',
@@ -77,7 +77,7 @@ export const SAMPLE_CANDIDATE_CONFIG: CampaignConfig = {
   candidatePhotoUrl: '/assets/images/official-poster.png',
   candidateSecondaryPhotoUrl: '/assets/images/official-poster.png',
   heroPhotoUrl: 'https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=1400&q=80',
-  communityPhotoUrl: 'https://images.unsplash.com/photo-1577962917302-cd874c4e31d2?auto=format&fit=crop&w=1200&q=80',
+  communityPhotoUrl: '/assets/images/bori-youth-empowerment-workshop.jpg',
   socialLinks: {
     facebook: 'https://facebook.com/buradumdaniel',
     twitter: 'https://x.com/engr_buradum',
@@ -385,7 +385,7 @@ export const NEWS_ARTICLES: NewsArticle[] = [
       '"We are not entering the National Assembly to sit in air-conditioned chambers detached from our people," [CANDIDATE NAME] declared. "Our mandate is to bring the resources, the infrastructure interventions, and the opportunities directly back home to every ward."',
       'The feedback gathered across the sessions has been formally integrated into our detailed Legislative Roadmap document.'
     ],
-    imageUrl: 'https://images.unsplash.com/photo-1577962917302-cd874c4e31d2?auto=format&fit=crop&w=800&q=80',
+    imageUrl: '/assets/images/bori-youth-empowerment-workshop.jpg',
     author: 'Directorate of Media & Communications'
   },
   {
@@ -476,12 +476,12 @@ export const NEWS_ARTICLES: NewsArticle[] = [
 export const GALLERY_ITEMS: GalleryItem[] = [
   {
     id: 'gal-1',
-    title: 'Ward Listening Session with Community Elders & Youth',
+    title: 'Youth & Stakeholders Empowerment Workshop in Bori',
     category: 'Community',
-    location: '[COMMUNITY CENTRAL]',
+    location: 'Bori Civic Center, Khana LGA',
     date: 'February 2026',
-    imageUrl: 'https://images.unsplash.com/photo-1577962917302-cd874c4e31d2?auto=format&fit=crop&w=800&q=80',
-    caption: 'Candidate engaging directly with neighborhood stakeholders to document ward priorities.'
+    imageUrl: '/assets/images/bori-youth-empowerment-workshop.jpg',
+    caption: 'Candidate and community youth leaders during an interactive empowerment and legislative planning workshop in Bori.'
   },
   {
     id: 'gal-2',

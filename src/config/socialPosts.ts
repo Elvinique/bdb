@@ -27,17 +27,17 @@ export const INITIAL_SOCIAL_POSTS: SocialPost[] = [
     authorName: 'Engr. Buradum Baribefe Daniel (Official)',
     authorAvatarUrl: '/assets/images/official-poster.png',
     verified: true,
-    content: 'TOWN HALL IN KPOR, GOKANA: Earlier today, our campaign delegation met with community elders, youth executives, and coastal fishing cooperatives across Kpor, Bodo, and Bomu. We presented our legislative blueprint for solar-powered cold storage facilities, maternal health clinics with 24/7 power, and clean water access. Representation must be accountable, empathetic, and visible.',
-    mediaUrl: 'https://images.unsplash.com/photo-1577962917302-cd874c4e31d2?auto=format&fit=crop&w=1000&q=80',
+    content: 'STRATEGIC PLANNING & YOUTH EMPOWERMENT IN BORI: Earlier today at the Bori Civic Center, our campaign leadership met with youth representatives, students, and community stakeholders. We unpacked our legislative blueprint for tech vocational incubators, micro-credit access, and local content job placement across Khana and Gokana. Together, we are building a constituency where our youth lead from the front.',
+    mediaUrl: '/assets/images/bori-youth-empowerment-workshop.jpg',
     mediaType: 'image',
     publishedAt: '2026-09-18T18:45:00Z',
     timeAgo: 'Yesterday',
-    location: 'Kpor Gokana Council Pavilion',
+    location: 'Bori Civic Center, Khana LGA',
     likesCount: 890,
     sharesCount: 312,
     commentsCount: 145,
     postUrl: 'https://facebook.com/buradumdaniel',
-    tags: ['GokanaTownHall', 'SolarHealth', 'Accountability', 'NNPP2027']
+    tags: ['BoriOgoni', 'YouthEmpowerment', 'KhanaGokana2027', 'LetsBuildAsOne']
   },
   {
     id: 'sp-3',
