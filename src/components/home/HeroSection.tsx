@@ -32,16 +32,39 @@ export const HeroSection: React.FC = () => {
             </div>
 
             {/* Candidate Name & Slogan Headlines */}
-            <div className="space-y-2">
-              <div className="inline-block px-3 py-1 rounded bg-sky-950/80 border border-sky-600/50 text-sky-300 text-xs font-bold tracking-widest uppercase">
-                THE BEACON OF HOPE 2027
+            <div className="space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-950/80 border border-sky-600/50 text-sky-300 text-xs font-bold tracking-widest uppercase shadow-sm">
+                <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
+                <span>THE BEACON OF HOPE 2027</span>
               </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
                 {config.candidateName}
               </h1>
-              <p className="text-2xl sm:text-3xl font-semibold text-emerald-400 font-editorial tracking-normal">
-                {config.campaignSlogan}
-              </p>
+
+              {/* Prominently Placed, Optimized Slogan with Slow Beacon Blink Animation */}
+              <div className="pt-1 pb-1">
+                <div className="inline-flex flex-col sm:flex-row items-start sm:items-center gap-4 p-3 sm:p-3.5 pr-6 rounded-2xl bg-gradient-to-r from-stone-900/95 via-stone-850/90 to-stone-900/80 border border-emerald-500/40 shadow-2xl backdrop-blur-md animate-slow-glow">
+                  <div className="relative flex items-center justify-center p-2.5 px-3.5 rounded-xl bg-gradient-to-b from-white via-white to-stone-100 shadow-md border border-white/60 shrink-0">
+                    <img
+                      src="/assets/images/lets-build-as-one.png"
+                      alt="Let's Build As One - Campaign Slogan"
+                      className="h-16 sm:h-20 md:h-22 w-auto object-contain animate-slow-blink drop-shadow-sm"
+                    />
+                  </div>
+                  <div>
+                    <div className="inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest text-emerald-400">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                      <span>OFFICIAL CAMPAIGN MOTTO</span>
+                    </div>
+                    <p className="text-xl sm:text-2xl font-extrabold text-white font-serif tracking-tight mt-0.5">
+                      "Let's Build As One"
+                    </p>
+                    <p className="text-xs text-stone-300 max-w-sm mt-0.5">
+                      The united grassroots mandate for Khana & Gokana Federal Constituency 2027.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Campaign Core Mission Description */}
@@ -169,8 +192,15 @@ export const HeroSection: React.FC = () => {
                       </p>
                     </div>
 
-                    <div className="w-10 h-10 rounded-full bg-emerald-900/80 border border-emerald-500/40 flex items-center justify-center shrink-0">
-                      <span className="text-xs font-bold text-emerald-200">2027</span>
+                    <div className="flex items-center gap-2 pl-3 border-l border-stone-800 shrink-0">
+                      <div className="bg-white/95 p-1 px-1.5 rounded-lg shadow-sm border border-stone-200/80">
+                        <img
+                          src="/assets/images/lets-build-as-one.png"
+                          alt="Let's Build As One"
+                          className="h-8 sm:h-10 w-auto object-contain animate-slow-blink"
+                          title="Official Campaign Motto: Let's Build As One"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
