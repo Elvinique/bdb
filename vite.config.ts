@@ -78,6 +78,7 @@ export default defineConfig(() => {
     },
     define: {
       __FLUTTERWAVE_PUBLIC_KEY__: JSON.stringify(process.env.PAYMENT_PUBLIC_KEY || process.env.VITE_FLUTTERWAVE_PUBLIC_KEY || ''),
+      __ADMIN_PORTAL_PASSWORD__: JSON.stringify(process.env.ADMIN_PORTAL_PASSWORD || process.env.VITE_ADMIN_PORTAL_PASSWORD || '2255'),
     },
     server: {
       // HMR is disabled in AI Studio via DISABLE_HMR env var.

@@ -213,6 +213,30 @@ app.get('/api/compliance/config', (_req, res) => {
   });
 });
 
+// Admin / Staff Portal Authentication Endpoint
+app.post('/api/auth/admin-login', (req, res) => {
+  const { password } = req.body || {};
+  const configuredPassword = process.env.ADMIN_PORTAL_PASSWORD || process.env.VITE_ADMIN_PORTAL_PASSWORD || '2255';
+  
+  if (!password) {
+    return res.status(400).json({ success: false, error: 'Password is required' });
+  }
+
+  if (String(password).trim() === String(configuredPassword).trim()) {
+    return res.json({
+      success: true,
+      message: 'Staff portal authenticated successfully',
+      role: 'CAMPAIGN_ADMIN',
+      authenticatedAt: new Date().toISOString()
+    });
+  }
+
+  return res.status(401).json({
+    success: false,
+    error: 'Incorrect admin passcode. Access denied.'
+  });
+});
+
 // Start Express server and attach Vite middleware
 async function start() {
   if (process.env.NODE_ENV !== 'production') {

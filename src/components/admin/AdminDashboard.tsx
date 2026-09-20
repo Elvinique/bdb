@@ -47,6 +47,7 @@ export const AdminDashboard: React.FC = () => {
     setFundraisingEnabled,
     auditLogs,
     setCurrentPage,
+    logoutAdmin,
     notify
   } = useCampaign();
 
@@ -199,6 +200,16 @@ export const AdminDashboard: React.FC = () => {
             >
               <Download className="w-3.5 h-3.5" />
               <span>Export Briefing</span>
+            </button>
+
+            <button
+              id="admin-logout-btn"
+              onClick={logoutAdmin}
+              className="px-3 py-1.5 bg-rose-950/80 hover:bg-rose-900 text-rose-200 hover:text-white rounded-lg text-xs font-semibold transition flex items-center gap-1.5 border border-rose-800/80 shadow-sm"
+              title="End admin session and lock portal"
+            >
+              <Lock className="w-3.5 h-3.5 text-rose-400" />
+              <span>Sign Out & Lock</span>
             </button>
           </div>
         </div>

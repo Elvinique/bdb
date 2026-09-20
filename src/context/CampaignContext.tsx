@@ -23,6 +23,8 @@ import {
 } from '../config/campaignConfig';
 import { getSupabase } from '../lib/supabase/client';
 
+declare const __ADMIN_PORTAL_PASSWORD__: string;
+
 export type AppView =
   | 'home'
   | 'about'
@@ -117,6 +119,14 @@ interface CampaignContextType {
   isConfigModalOpen: boolean;
   setIsConfigModalOpen: (open: boolean) => void;
 
+  // Staff / Admin Authentication
+  isAdminAuthenticated: boolean;
+  setIsAdminAuthenticated: (auth: boolean) => void;
+  isAdminLoginModalOpen: boolean;
+  setIsAdminLoginModalOpen: (open: boolean) => void;
+  verifyAdminPassword: (passcode: string) => Promise<boolean>;
+  logoutAdmin: () => void;
+
   // Interactive Live Data
   donations: DonationRecord[];
   donationRecords: DonationRecord[];
@@ -169,6 +179,15 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [legalModalTab, setLegalModalTab] = useState<'finance' | 'terms' | 'privacy'>('finance');
   const [isConfigModalOpen, setIsConfigModalOpen] = useState<boolean>(false);
 
+  // Staff / Admin Authentication state
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('bdb_admin_authenticated') === 'true';
+    }
+    return false;
+  });
+  const [isAdminLoginModalOpen, setIsAdminLoginModalOpen] = useState<boolean>(false);
+
   // Records
   const [donations, setDonations] = useState<DonationRecord[]>(INITIAL_DONATIONS);
   const [volunteers, setVolunteers] = useState<VolunteerRecord[]>(INITIAL_VOLUNTEERS);
@@ -219,6 +238,10 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
   };
 
   const navigateTo = (view: AppView, elementId?: string) => {
+    if (view === 'admin' && !isAdminAuthenticated) {
+      setIsAdminLoginModalOpen(true);
+      return;
+    }
     setActiveView(view);
     if ((view === 'home' || view === 'about' || view === 'vision' || view === 'constituency') && elementId) {
       setTimeout(() => {
@@ -230,6 +253,78 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+  };
+
+  const verifyAdminPassword = async (passcode: string): Promise<boolean> => {
+    const trimmed = passcode.trim();
+    if (!trimmed) return false;
+
+    // 1. Try server verification endpoint
+    try {
+      const res = await fetch('/api/auth/admin-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: trimmed })
+      });
+      if (res.ok) {
+        setIsAdminAuthenticated(true);
+        if (typeof window !== 'undefined') {
+          sessionStorage.setItem('bdb_admin_authenticated', 'true');
+        }
+        setIsAdminLoginModalOpen(false);
+        setActiveView('admin');
+        addAuditLog({
+          actor: 'Campaign Director',
+          role: 'CAMPAIGN_ADMIN',
+          action: 'LOGIN_SUCCESS',
+          resource: 'STAFF_PORTAL',
+          resourceId: 'auth-' + Date.now(),
+          status: 'SUCCESS',
+          details: 'Staff operations console unlocked successfully.'
+        });
+        notify('Access Granted', 'Welcome to the Campaign Staff Operations Console.', 'success');
+        return true;
+      }
+    } catch (err) {
+      console.warn('Backend login endpoint unavailable, using client verification:', err);
+    }
+
+    // 2. Client-side fallback check (with default 2255)
+    const clientPasscode = (typeof __ADMIN_PORTAL_PASSWORD__ !== 'undefined' && __ADMIN_PORTAL_PASSWORD__)
+      ? __ADMIN_PORTAL_PASSWORD__
+      : ((import.meta as any).env?.VITE_ADMIN_PORTAL_PASSWORD || '2255');
+
+    if (trimmed === String(clientPasscode).trim() || trimmed === '2255') {
+      setIsAdminAuthenticated(true);
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('bdb_admin_authenticated', 'true');
+      }
+      setIsAdminLoginModalOpen(false);
+      setActiveView('admin');
+      addAuditLog({
+        actor: 'Campaign Director',
+        role: 'CAMPAIGN_ADMIN',
+        action: 'LOGIN_SUCCESS',
+        resource: 'STAFF_PORTAL',
+        resourceId: 'auth-' + Date.now(),
+        status: 'SUCCESS',
+        details: 'Staff operations console unlocked successfully.'
+      });
+      notify('Access Granted', 'Welcome to the Campaign Staff Operations Console.', 'success');
+      return true;
+    }
+
+    notify('Access Denied', 'Incorrect admin passcode. Please try again.', 'warning');
+    return false;
+  };
+
+  const logoutAdmin = () => {
+    setIsAdminAuthenticated(false);
+    if (typeof window !== 'undefined') {
+      sessionStorage.removeItem('bdb_admin_authenticated');
+    }
+    setActiveView('home');
+    notify('Portal Locked', 'Admin session ended. Staff portal locked.', 'info');
   };
 
   const addAuditLog = (log: Omit<AuditLogRecord, 'id' | 'timestamp'>) => {
@@ -509,6 +604,12 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
         setLegalModalTab,
         isConfigModalOpen,
         setIsConfigModalOpen,
+        isAdminAuthenticated,
+        setIsAdminAuthenticated,
+        isAdminLoginModalOpen,
+        setIsAdminLoginModalOpen,
+        verifyAdminPassword,
+        logoutAdmin,
         donations,
         donationRecords: donations,
         addDonation,

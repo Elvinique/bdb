@@ -37,6 +37,7 @@ import { EventRsvpModal } from './components/modals/EventRsvpModal';
 import { ArticleModal } from './components/modals/ArticleModal';
 import { LegalModal } from './components/modals/LegalModal';
 import { CandidateConfigModal } from './components/modals/CandidateConfigModal';
+import { AdminLoginModal } from './components/modals/AdminLoginModal';
 
 // Toast Notification View
 import { CheckCircle2, AlertCircle, Info, X } from 'lucide-react';
@@ -82,9 +83,18 @@ const ToastContainer: React.FC = () => {
 };
 
 const CampaignApp: React.FC = () => {
-  const { currentPage } = useCampaign();
+  const { currentPage, isAdminAuthenticated } = useCampaign();
 
   if (currentPage === 'admin') {
+    if (!isAdminAuthenticated) {
+      return (
+        <div className="min-h-screen bg-stone-950 flex flex-col justify-center items-center p-4">
+          <AdminLoginModal isOpenDirect={true} />
+          <ToastContainer />
+        </div>
+      );
+    }
+
     return (
       <div className="min-h-screen bg-stone-900">
         <AdminDashboard />
@@ -189,6 +199,7 @@ const CampaignApp: React.FC = () => {
       <ArticleModal />
       <LegalModal />
       <CandidateConfigModal />
+      <AdminLoginModal />
 
       {/* Global Campaign Communications Helpdesk */}
       <CampaignChatbot />
