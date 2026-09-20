@@ -158,7 +158,7 @@ export const DonationSection: React.FC = () => {
 
           {/* Right: Donation Flow Card (7 cols) */}
           <div className="lg:col-span-7">
-            <div className="p-6 sm:p-10 rounded-3xl bg-stone-800/90 border border-stone-700/80 shadow-2xl backdrop-blur-md">
+            <div className="p-4 sm:p-8 lg:p-10 rounded-3xl bg-stone-800/90 border border-stone-700/80 shadow-2xl backdrop-blur-md">
               
               <form onSubmit={handleContinue} className="space-y-6">
                 
@@ -193,7 +193,7 @@ export const DonationSection: React.FC = () => {
                   <label className="block text-xs font-semibold text-stone-300">
                     Select Contribution Amount (NGN)
                   </label>
-                  <div className="grid grid-cols-3 gap-2.5">
+                  <div className="grid grid-cols-3 gap-1.5 sm:gap-2.5">
                     {presetAmounts.map((amt) => {
                       const isSelected = !isCustom && selectedAmount === amt;
                       return (
@@ -202,7 +202,7 @@ export const DonationSection: React.FC = () => {
                           type="button"
                           id={`donate-preset-${amt}`}
                           onClick={() => handleSelectPreset(amt)}
-                          className={`py-3 px-2 rounded-xl text-sm font-bold transition border ${
+                          className={`py-2.5 sm:py-3 px-1 sm:px-2 rounded-xl text-xs sm:text-sm font-bold transition border truncate text-center ${
                             isSelected
                               ? 'bg-emerald-600 text-white border-emerald-400 shadow-md ring-2 ring-emerald-500/30'
                               : 'bg-stone-900/80 text-stone-200 border-stone-700 hover:bg-stone-900 hover:border-stone-600'
@@ -218,13 +218,13 @@ export const DonationSection: React.FC = () => {
                       type="button"
                       id="donate-preset-custom"
                       onClick={() => setIsCustom(true)}
-                      className={`py-3 px-2 rounded-xl text-sm font-bold transition border ${
+                      className={`py-2.5 sm:py-3 px-1 sm:px-2 rounded-xl text-xs sm:text-sm font-bold transition border truncate text-center ${
                         isCustom
                           ? 'bg-emerald-600 text-white border-emerald-400 shadow-md ring-2 ring-emerald-500/30'
                           : 'bg-stone-900/80 text-stone-200 border-stone-700 hover:bg-stone-900 hover:border-stone-600'
                       }`}
                     >
-                      Custom Amount
+                      Custom
                     </button>
                   </div>
 

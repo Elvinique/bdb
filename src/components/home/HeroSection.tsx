@@ -37,13 +37,13 @@ export const HeroSection: React.FC = () => {
                 <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
                 <span>THE BEACON OF HOPE 2027</span>
               </div>
-              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-[2.15rem] xl:text-[2.5rem] font-extrabold tracking-tight text-white leading-tight whitespace-nowrap">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.15rem] xl:text-[2.5rem] font-extrabold tracking-tight text-white leading-tight break-words max-w-full">
                 {config.candidateName}
               </h1>
 
               {/* Prominently Placed, Optimized Slogan with Slow Beacon Blink Animation */}
-              <div className="pt-1 pb-1">
-                <div className="inline-flex flex-col sm:flex-row items-start sm:items-center gap-4 p-3 sm:p-3.5 pr-6 rounded-2xl bg-gradient-to-r from-stone-900/95 via-stone-850/90 to-stone-900/80 border border-emerald-500/40 shadow-2xl backdrop-blur-md animate-slow-glow">
+              <div className="pt-1 pb-1 max-w-full">
+                <div className="inline-flex flex-col sm:flex-row items-start sm:items-center gap-4 p-3 sm:p-3.5 pr-4 sm:pr-6 rounded-2xl bg-gradient-to-r from-stone-900/95 via-stone-850/90 to-stone-900/80 border border-emerald-500/40 shadow-2xl backdrop-blur-md animate-slow-glow max-w-full">
                   <div className="relative flex items-center justify-center p-2.5 px-3.5 rounded-xl bg-gradient-to-b from-white via-white to-stone-100 shadow-md border border-white/60 shrink-0">
                     <img
                       src="/assets/images/lets-build-as-one.png"
