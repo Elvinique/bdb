@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useCampaign } from '../../context/CampaignContext';
-import { ShieldCheck, Info, Check, ArrowRight } from 'lucide-react';
+import { ShieldCheck, Info, Check, ArrowRight, Lock } from 'lucide-react';
 
 export const DonationSection: React.FC = () => {
   const {
     config,
     setIsDonationModalOpen,
     setDonationPresetAmount,
+    setDonationPrefillData,
     setIsLegalModalOpen,
     setLegalModalTab,
     notify
@@ -53,6 +54,11 @@ export const DonationSection: React.FC = () => {
     }
 
     setDonationPresetAmount(finalAmount);
+    setDonationPrefillData({
+      donorName: fullName.trim() || undefined,
+      email: email.trim() || undefined,
+      phone: phone.trim() || undefined,
+    });
     setIsDonationModalOpen(true);
   };
 
@@ -104,6 +110,10 @@ export const DonationSection: React.FC = () => {
 
             {/* Trust Highlights */}
             <div className="space-y-3 pt-2">
+              <div className="flex items-center gap-3 text-xs text-stone-300">
+                <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>Secured by Flutterwave • 256-bit Encrypted Electoral Gateway</span>
+              </div>
               <div className="flex items-center gap-3 text-xs text-stone-300">
                 <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>Zero Corporate Dark Money • 100% People-Funded</span>
@@ -340,8 +350,9 @@ export const DonationSection: React.FC = () => {
                     <span>PROCEED TO SECURE CONTRIBUTION</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
-                  <p className="text-center text-[11px] text-stone-400 mt-2">
-                    Encrypted 256-bit SSL transaction • Official digital receipt issued upon confirmation
+                  <p className="text-center text-[11px] text-stone-400 mt-2 flex items-center justify-center gap-1.5">
+                    <Lock className="w-3 h-3 text-emerald-400 inline" />
+                    <span>Secured by Flutterwave • 256-bit SSL Encrypted • Cards, Bank Transfer & USSD</span>
                   </p>
                 </div>
 

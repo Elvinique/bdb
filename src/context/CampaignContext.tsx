@@ -108,6 +108,8 @@ interface CampaignContextType {
   setIsDonationModalOpen: (open: boolean) => void;
   donationPresetAmount: number | null;
   setDonationPresetAmount: (amt: number | null) => void;
+  donationPrefillData: { donorName?: string; email?: string; phone?: string } | null;
+  setDonationPrefillData: (data: { donorName?: string; email?: string; phone?: string } | null) => void;
   isLegalModalOpen: boolean;
   setIsLegalModalOpen: (open: boolean) => void;
   legalModalTab: 'finance' | 'terms' | 'privacy';
@@ -118,7 +120,7 @@ interface CampaignContextType {
   // Interactive Live Data
   donations: DonationRecord[];
   donationRecords: DonationRecord[];
-  addDonation: (donation: Omit<DonationRecord, 'id' | 'date' | 'reference' | 'status'>) => DonationRecord;
+  addDonation: (donation: Omit<DonationRecord, 'id' | 'date' | 'reference' | 'status'> & { reference?: string; paymentProvider?: string }) => DonationRecord;
   updateDonationStatus: (id: string, status: DonationRecord['status']) => void;
 
   volunteers: VolunteerRecord[];
@@ -162,6 +164,7 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState<boolean>(false);
   const [isDonationModalOpen, setIsDonationModalOpen] = useState<boolean>(false);
   const [donationPresetAmount, setDonationPresetAmount] = useState<number | null>(null);
+  const [donationPrefillData, setDonationPrefillData] = useState<{ donorName?: string; email?: string; phone?: string } | null>(null);
   const [isLegalModalOpen, setIsLegalModalOpen] = useState<boolean>(false);
   const [legalModalTab, setLegalModalTab] = useState<'finance' | 'terms' | 'privacy'>('finance');
   const [isConfigModalOpen, setIsConfigModalOpen] = useState<boolean>(false);
@@ -238,12 +241,13 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
     setAuditLogs((prev) => [newEntry, ...prev]);
   };
 
-  const addDonation = (donationData: Omit<DonationRecord, 'id' | 'date' | 'reference' | 'status'>): DonationRecord => {
+  const addDonation = (donationData: Omit<DonationRecord, 'id' | 'date' | 'reference' | 'status'> & { reference?: string; paymentProvider?: string }): DonationRecord => {
     const newRecord: DonationRecord = {
       ...donationData,
       id: 'DON-' + Math.floor(1000 + Math.random() * 9000),
       date: new Date().toISOString().split('T')[0],
-      reference: 'TX-REF-' + Math.floor(100000 + Math.random() * 900000),
+      reference: donationData.reference || ('TX-BDB-FLW-' + Date.now().toString(36).toUpperCase()),
+      paymentProvider: donationData.paymentProvider || 'flutterwave',
       status: 'Verified'
     };
     setDonations((prev) => [newRecord, ...prev]);
@@ -259,7 +263,7 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
       resource: 'DONATIONS',
       resourceId: newRecord.reference,
       status: 'SUCCESS',
-      details: `Donation of ₦${donationData.amount.toLocaleString()} received via ${donationData.paymentMethod}.`
+      details: `Donation of ₦${donationData.amount.toLocaleString()} verified via ${donationData.paymentMethod} (${newRecord.paymentProvider === 'flutterwave' ? 'Flutterwave' : newRecord.paymentProvider}).`
     });
 
     // Sync to Supabase if configured
@@ -273,7 +277,7 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
           phone: newRecord.phone || null,
           amount: newRecord.amount,
           payment_method: newRecord.paymentMethod,
-          payment_provider: 'paystack_sandbox',
+          payment_provider: newRecord.paymentProvider || 'flutterwave',
           status: 'VERIFIED'
         })
         .then(({ error }) => {
@@ -497,6 +501,8 @@ export const CampaignProvider: React.FC<{ children: ReactNode }> = ({ children }
         setIsDonationModalOpen,
         donationPresetAmount,
         setDonationPresetAmount,
+        donationPrefillData,
+        setDonationPrefillData,
         isLegalModalOpen,
         setIsLegalModalOpen,
         legalModalTab,

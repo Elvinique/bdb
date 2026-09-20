@@ -2,7 +2,11 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import fs from 'fs';
 import path from 'path';
+import dotenv from 'dotenv';
 import {defineConfig, Plugin} from 'vite';
+
+dotenv.config({ path: path.resolve(__dirname, '.env.local') });
+dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 // LINT.IfChange(aistudio_media_plugin)
 function aistudioMediaPlugin(): Plugin {
@@ -71,6 +75,9 @@ export default defineConfig(() => {
       alias: {
         '@': path.resolve(__dirname, '.'),
       },
+    },
+    define: {
+      __FLUTTERWAVE_PUBLIC_KEY__: JSON.stringify(process.env.PAYMENT_PUBLIC_KEY || process.env.VITE_FLUTTERWAVE_PUBLIC_KEY || ''),
     },
     server: {
       // HMR is disabled in AI Studio via DISABLE_HMR env var.

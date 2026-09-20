@@ -140,6 +140,7 @@ export interface DonationRecord {
   lga?: string;
   state?: string;
   paymentMethod: string;
+  paymentProvider?: string;
   reference: string;
   referenceCode?: string;
   date: string;

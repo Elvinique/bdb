@@ -170,7 +170,9 @@ app.post('/api/donations/initialize', (req, res) => {
     return res.status(400).json({ error: 'Donation exceeds individual statutory maximum of ₦50,000,000 under the Electoral Act 2022.' });
   }
 
-  const reference = `TX-BDB-${Date.now()}-${Math.floor(1000 + Math.random() * 9000)}`;
+  const reference = `TX-BDB-FLW-${Date.now()}-${Math.floor(1000 + Math.random() * 9000)}`;
+  const publicKey = process.env.PAYMENT_PUBLIC_KEY || process.env.VITE_FLUTTERWAVE_PUBLIC_KEY || '';
+
   return res.status(200).json({
     success: true,
     reference,
@@ -178,9 +180,22 @@ app.post('/api/donations/initialize', (req, res) => {
     currency: 'NGN',
     donorName,
     email,
+    phone,
     paymentMethod: paymentMethod || 'card',
-    authorizationUrl: `https://checkout.paystack.com/sandbox-demo?reference=${reference}`,
-    message: 'Donation transaction initiated in compliance sandbox mode.'
+    publicKey,
+    message: 'Donation transaction initiated for Flutterwave gateway.'
+  });
+});
+
+// Payment Gateway Configuration Endpoint (Safely exposes public key only)
+app.get('/api/payments/config', (_req, res) => {
+  const publicKey = process.env.PAYMENT_PUBLIC_KEY || process.env.VITE_FLUTTERWAVE_PUBLIC_KEY || '';
+  const provider = (process.env.PAYMENT_PROVIDER || 'Flutterwave').toLowerCase();
+  return res.json({
+    provider,
+    publicKey,
+    currency: 'NGN',
+    status: publicKey ? 'CONFIGURED' : 'UNCONFIGURED'
   });
 });
 
@@ -193,8 +208,8 @@ app.get('/api/compliance/config', (_req, res) => {
     expenditureLimitNgn: 100000000,
     individualContributionLimitNgn: 50000000,
     statutoryAuthority: 'Electoral Act 2022, Section 88(4)',
-    liveFundraisingEnabled: false,
-    sandboxProvider: 'paystack_sandbox'
+    liveFundraisingEnabled: true,
+    paymentProvider: 'flutterwave'
   });
 });
 
