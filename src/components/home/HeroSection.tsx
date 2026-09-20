@@ -37,7 +37,7 @@ export const HeroSection: React.FC = () => {
                 <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
                 <span>THE BEACON OF HOPE 2027</span>
               </div>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-[2.15rem] xl:text-[2.5rem] font-extrabold tracking-tight text-white leading-tight whitespace-nowrap">
                 {config.candidateName}
               </h1>
 
