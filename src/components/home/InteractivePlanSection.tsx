@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useCampaign } from '../../context/CampaignContext';
 import { LEGISLATIVE_PRIORITIES } from '../../config/campaignConfig';
+import { CollapsibleSection } from '../common/CollapsibleSection';
 import { AlertCircle, Target, CheckCircle2, ArrowRight } from 'lucide-react';
 
 export const InteractivePlanSection: React.FC = () => {
@@ -54,8 +55,15 @@ export const InteractivePlanSection: React.FC = () => {
           })}
         </div>
 
-        {/* 3-Column Challenge / Approach / Impact Card Layout */}
-        <div className="bg-stone-800/90 border border-stone-700/80 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-sm">
+        <CollapsibleSection
+          theme="dark"
+          collapsedHeightMobile="440px"
+          expandLabel="Expand Blueprint & Impact Targets"
+          collapseLabel="Collapse Blueprint"
+          badge="Full Sector Plan"
+        >
+          {/* 3-Column Challenge / Approach / Impact Card Layout */}
+          <div className="bg-stone-800/90 border border-stone-700/80 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-sm">
           <div className="border-b border-stone-700/80 pb-6 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <span className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">
@@ -160,6 +168,7 @@ export const InteractivePlanSection: React.FC = () => {
             </div>
           </div>
         </div>
+      </CollapsibleSection>
 
       </div>
     </section>

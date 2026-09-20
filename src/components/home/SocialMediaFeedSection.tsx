@@ -21,6 +21,7 @@ import {
   Radio,
   X
 } from 'lucide-react';
+import { CollapsibleSection } from '../common/CollapsibleSection';
 
 export const SocialMediaFeedSection: React.FC = () => {
   const { config, notify } = useCampaign();
@@ -232,8 +233,15 @@ export const SocialMediaFeedSection: React.FC = () => {
           </button>
         </div>
 
-        {/* Post Grid (Masonry / 3 Columns Responsive) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <CollapsibleSection
+          theme="dark"
+          collapsedHeightMobile="480px"
+          expandLabel="View More Campaign Social Updates"
+          collapseLabel="Collapse Social Feed"
+          badge="Live Dispatches"
+        >
+          {/* Post Grid (Masonry / 3 Columns Responsive) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPosts.map((post) => {
             const badge = getPlatformBadge(post.platform);
             const isLiked = !!likedPosts[post.id];
@@ -403,6 +411,7 @@ export const SocialMediaFeedSection: React.FC = () => {
             );
           })}
         </div>
+      </CollapsibleSection>
 
         {/* Official Channels Banner Strip */}
         <div className="mt-12 p-6 rounded-2xl bg-gradient-to-r from-stone-950 via-stone-900 to-emerald-950/40 border border-stone-800 flex flex-col lg:flex-row items-center justify-between gap-6">

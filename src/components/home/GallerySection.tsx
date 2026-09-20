@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { GALLERY_ITEMS } from '../../config/campaignConfig';
 import { Camera, MapPin, Calendar, Image as ImageIcon } from 'lucide-react';
+import { CollapsibleSection } from '../common/CollapsibleSection';
 
 export const GallerySection: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('all');
@@ -51,8 +52,15 @@ export const GallerySection: React.FC = () => {
           </div>
         </div>
 
-        {/* Gallery Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <CollapsibleSection
+          theme="stone-50"
+          collapsedHeightMobile="420px"
+          expandLabel="View Complete Photo Archive"
+          collapseLabel="Collapse Photo Archive"
+          badge="Photo Gallery"
+        >
+          {/* Gallery Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredItems.map((item) => (
             <div
               key={item.id}
@@ -85,6 +93,7 @@ export const GallerySection: React.FC = () => {
             </div>
           ))}
         </div>
+      </CollapsibleSection>
 
       </div>
     </section>

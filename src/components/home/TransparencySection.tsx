@@ -1,6 +1,7 @@
 import React from 'react';
 import { useCampaign } from '../../context/CampaignContext';
 import { ShieldCheck, PieChart, Users, Calendar, Coins, TrendingUp } from 'lucide-react';
+import { CollapsibleSection } from '../common/CollapsibleSection';
 
 export const TransparencySection: React.FC = () => {
   const { transparencyData } = useCampaign();
@@ -29,8 +30,15 @@ export const TransparencySection: React.FC = () => {
           </div>
         </div>
 
-        {/* Campaign Metrics Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <CollapsibleSection
+          theme="stone-50"
+          collapsedHeightMobile="420px"
+          expandLabel="View Detailed Financial & Ethics Breakdown"
+          collapseLabel="Collapse Accountability Data"
+          badge="Audit Report"
+        >
+          {/* Campaign Metrics Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           
           <div className="p-6 rounded-2xl bg-white border border-stone-200 shadow-sm space-y-2">
             <div className="w-10 h-10 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700">
@@ -152,6 +160,7 @@ export const TransparencySection: React.FC = () => {
             Independent audit reports will be compiled and published bi-annually during the campaign cycle.
           </div>
         </div>
+      </CollapsibleSection>
 
       </div>
     </section>

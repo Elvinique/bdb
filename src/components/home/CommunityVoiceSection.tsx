@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useCampaign } from '../../context/CampaignContext';
 import { Send, CheckCircle2, MessageSquare, AlertCircle } from 'lucide-react';
+import { CollapsibleSection } from '../common/CollapsibleSection';
 
 export const CommunityVoiceSection: React.FC = () => {
   const { config, addFeedback, feedbackList } = useCampaign();
@@ -63,8 +64,14 @@ export const CommunityVoiceSection: React.FC = () => {
       className="py-16 sm:py-24 bg-white text-stone-900 border-b border-stone-200"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <CollapsibleSection
+          theme="light"
+          collapsedHeightMobile="480px"
+          expandLabel="Open Citizen Concern Submission Form"
+          collapseLabel="Collapse Feedback Form"
+          badge="Citizen Registry"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           
           {/* Left: Section Context & Explanation (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
@@ -281,9 +288,9 @@ export const CommunityVoiceSection: React.FC = () => {
 
             </div>
           </div>
-
         </div>
-      </div>
-    </section>
+      </CollapsibleSection>
+    </div>
+  </section>
   );
 };

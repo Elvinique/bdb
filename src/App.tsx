@@ -1,6 +1,5 @@
 import React from 'react';
 import { CampaignProvider, useCampaign } from './context/CampaignContext';
-import { PresentationBanner } from './components/common/PresentationBanner';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 
@@ -8,6 +7,7 @@ import { Footer } from './components/layout/Footer';
 import { HeroSection } from './components/home/HeroSection';
 import { TrustPrinciplesStrip } from './components/home/TrustPrinciplesStrip';
 import { WhyIAmRunningSection } from './components/home/WhyIAmRunningSection';
+import { GreenChamberMandateSection } from './components/home/GreenChamberMandateSection';
 import { AboutCandidateSection } from './components/home/AboutCandidateSection';
 import { VisionPrioritiesSection } from './components/home/VisionPrioritiesSection';
 import { InteractivePlanSection } from './components/home/InteractivePlanSection';
@@ -115,6 +115,7 @@ const CampaignApp: React.FC = () => {
             <HeroSection />
             <TrustPrinciplesStrip />
             <WhyIAmRunningSection />
+            <GreenChamberMandateSection />
             <AboutCandidateSection />
             <VisionPrioritiesSection />
             <InteractivePlanSection />
@@ -135,6 +136,7 @@ const CampaignApp: React.FC = () => {
         {currentPage === 'about' && (
           <>
             <WhyIAmRunningSection />
+            <GreenChamberMandateSection />
             <AboutCandidateSection />
             <FinalCtaSection />
           </>
@@ -142,6 +144,7 @@ const CampaignApp: React.FC = () => {
 
         {(currentPage === 'vision' || currentPage === 'priorities') && (
           <>
+            <GreenChamberMandateSection />
             <VisionPrioritiesSection />
             <InteractivePlanSection />
             <FinalCtaSection />
@@ -203,9 +206,6 @@ const CampaignApp: React.FC = () => {
 
       {/* Global Campaign Communications Helpdesk */}
       <CampaignChatbot />
-
-      {/* Floating Presentation & Demo Controls (Bottom Left) */}
-      <PresentationBanner />
 
       {/* Global Toast Alerts */}
       <ToastContainer />

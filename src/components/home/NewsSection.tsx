@@ -3,6 +3,7 @@ import { useCampaign } from '../../context/CampaignContext';
 import { NEWS_ARTICLES } from '../../config/campaignConfig';
 import { NewsArticle } from '../../types';
 import { FileText, Calendar, Clock, ArrowRight } from 'lucide-react';
+import { CollapsibleSection } from '../common/CollapsibleSection';
 
 export const NewsSection: React.FC = () => {
   const { setSelectedArticle } = useCampaign();
@@ -54,8 +55,15 @@ export const NewsSection: React.FC = () => {
           </div>
         </div>
 
-        {/* 6 Articles Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <CollapsibleSection
+          theme="light"
+          collapsedHeightMobile="480px"
+          expandLabel="View All Press Releases & Updates"
+          collapseLabel="Collapse Dispatches"
+          badge="Newsroom"
+        >
+          {/* 6 Articles Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredArticles.map((article) => (
             <article
               key={article.id}
@@ -113,6 +121,7 @@ export const NewsSection: React.FC = () => {
             </article>
           ))}
         </div>
+      </CollapsibleSection>
 
       </div>
     </section>

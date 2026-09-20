@@ -9,6 +9,7 @@ import {
   ArrowRight,
   Ticket
 } from 'lucide-react';
+import { CollapsibleSection } from '../common/CollapsibleSection';
 
 export const EventsSection: React.FC = () => {
   const { events, setSelectedEventForRsvp } = useCampaign();
@@ -58,8 +59,15 @@ export const EventsSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Events Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <CollapsibleSection
+          theme="stone-50"
+          collapsedHeightMobile="420px"
+          expandLabel="View All Scheduled Campaign Events"
+          collapseLabel="Collapse Events Schedule"
+          badge="Full Calendar"
+        >
+          {/* Events Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {filteredEvents.map((evt) => (
             <div
               key={evt.id}
@@ -118,6 +126,7 @@ export const EventsSection: React.FC = () => {
             </div>
           ))}
         </div>
+      </CollapsibleSection>
 
       </div>
     </section>

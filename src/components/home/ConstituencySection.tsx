@@ -10,6 +10,7 @@ import {
   Compass,
   CheckCircle2
 } from 'lucide-react';
+import { CollapsibleSection } from '../common/CollapsibleSection';
 
 export const ConstituencySection: React.FC = () => {
   const { config, navigateTo } = useCampaign();
@@ -38,8 +39,15 @@ export const ConstituencySection: React.FC = () => {
           </p>
         </div>
 
-        {/* 2-Column Interactive Map & LGA Profile View */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <CollapsibleSection
+          theme="stone-50"
+          collapsedHeightMobile="500px"
+          expandLabel="Explore All Wards & Community Needs"
+          collapseLabel="Collapse Community Details"
+          badge="Wards & Profiles"
+        >
+          {/* 2-Column Interactive Map & LGA Profile View */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Left: Interactive Visual Map Graphic (6 cols) */}
           <div className="lg:col-span-6 bg-white p-6 sm:p-8 rounded-3xl border border-stone-200 shadow-sm space-y-6">
@@ -229,8 +237,8 @@ export const ConstituencySection: React.FC = () => {
 
             </div>
           </div>
-
         </div>
+      </CollapsibleSection>
       </div>
     </section>
   );

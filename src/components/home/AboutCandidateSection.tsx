@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useCampaign } from '../../context/CampaignContext';
 import { CANDIDATE_MILESTONES } from '../../config/campaignConfig';
+import { CollapsibleSection } from '../common/CollapsibleSection';
 import {
   GraduationCap,
   Briefcase,
@@ -40,7 +41,14 @@ export const AboutCandidateSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Top Grid: Bio & Core Pillars */}
+        <CollapsibleSection
+          theme="stone-50"
+          collapsedHeightMobile="580px"
+          expandLabel="Read Full Biography & Career Timeline"
+          collapseLabel="Collapse Biography & Timeline"
+          badge="Full Profile"
+        >
+          {/* Top Grid: Bio & Core Pillars */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-20">
           
           {/* Candidate Portrait Card (4 cols) */}
@@ -224,6 +232,7 @@ export const AboutCandidateSection: React.FC = () => {
             </div>
           </div>
         </div>
+      </CollapsibleSection>
 
       </div>
     </section>

@@ -2,6 +2,7 @@ import React from 'react';
 import { useCampaign } from '../../context/CampaignContext';
 import { LEGISLATIVE_PRIORITIES } from '../../config/campaignConfig';
 import { LegislativePriority } from '../../types';
+import { CollapsibleSection } from '../common/CollapsibleSection';
 import {
   GraduationCap,
   Briefcase,
@@ -61,7 +62,14 @@ export const VisionPrioritiesSection: React.FC = () => {
           </p>
         </div>
 
-        {/* 8 Priority Cards Grid */}
+        <CollapsibleSection
+          theme="light"
+          collapsedHeightMobile="480px"
+          expandLabel="Show All 8 Legislative Priorities"
+          collapseLabel="Collapse Priorities"
+          badge="+6 More Priorities"
+        >
+          {/* 8 Priority Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {LEGISLATIVE_PRIORITIES.map((priority) => (
             <div
@@ -106,6 +114,7 @@ export const VisionPrioritiesSection: React.FC = () => {
             No Empty Promises
           </span>
         </div>
+        </CollapsibleSection>
 
       </div>
     </section>
