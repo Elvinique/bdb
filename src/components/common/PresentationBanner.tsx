@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useCampaign } from '../../context/CampaignContext';
-import { Settings, Sparkles, LayoutDashboard, Check, X, SlidersHorizontal } from 'lucide-react';
+import { Settings, LayoutDashboard, Check, X, SlidersHorizontal } from 'lucide-react';
 
 interface PresentationBannerProps {
   onOpenConfigEditor?: () => void;

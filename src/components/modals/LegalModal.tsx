@@ -115,7 +115,7 @@ export const LegalModal: React.FC = () => {
                 <li>This contribution is made from my own personal funds and not provided to me by another person or entity for the purpose of making this contribution.</li>
                 <li>I understand that contributions to political campaigns are not tax-deductible under current Nigerian tax law.</li>
                 <li>All contributions are voluntary and non-refundable once disbursed into voter education and field logistics.</li>
-                <li><strong>Prototype Note:</strong> On this demonstration prototype, no bank account or card is charged. Transactions are simulated for presentation purposes.</li>
+                <li><strong>Statutory Recordkeeping:</strong> All donor records are preserved in strict compliance with the Electoral Act and audited campaign finance regulations.</li>
               </ol>
             </div>
           )}

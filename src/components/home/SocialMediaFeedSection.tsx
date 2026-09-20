@@ -10,7 +10,6 @@ import {
   Repeat,
   RefreshCw,
   CheckCircle2,
-  Sparkles,
   Play,
   MapPin,
   Calendar,
@@ -163,7 +162,7 @@ export const SocialMediaFeedSection: React.FC = () => {
                 : 'bg-stone-800/80 text-stone-300 hover:bg-stone-800 hover:text-white border border-stone-700/60'
             }`}
           >
-            <Sparkles className="w-3.5 h-3.5" />
+            <Radio className="w-3.5 h-3.5" />
             <span>All Platforms ({posts.length})</span>
           </button>
 
@@ -409,7 +408,7 @@ export const SocialMediaFeedSection: React.FC = () => {
         <div className="mt-12 p-6 rounded-2xl bg-gradient-to-r from-stone-950 via-stone-900 to-emerald-950/40 border border-stone-800 flex flex-col lg:flex-row items-center justify-between gap-6">
           <div className="space-y-1 text-center lg:text-left">
             <h3 className="text-base font-bold text-white flex items-center justify-center lg:justify-start gap-2">
-              <Sparkles className="w-4 h-4 text-emerald-400" />
+              <Share2 className="w-4 h-4 text-emerald-400" />
               <span>Follow the Official Campaign Across All Networks</span>
             </h3>
             <p className="text-xs text-stone-400 max-w-xl">

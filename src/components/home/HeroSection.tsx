@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useCampaign } from '../../context/CampaignContext';
-import { ArrowRight, Heart, MapPin, Sparkles, CheckCircle2, Image as ImageIcon, UserCheck } from 'lucide-react';
+import { ArrowRight, MapPin, Calendar, CheckCircle2, Image as ImageIcon, UserCheck } from 'lucide-react';
 
 export const HeroSection: React.FC = () => {
   const { config, navigateTo, setIsDonationModalOpen } = useCampaign();
@@ -56,7 +56,7 @@ export const HeroSection: React.FC = () => {
                 <span className="font-medium">{config.constituencyName} • {config.stateName}</span>
               </div>
               <div className="flex items-center gap-1.5 bg-stone-800/80 px-3 py-1.5 rounded-md border border-stone-700 text-stone-300">
-                <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+                <Calendar className="w-3.5 h-3.5 text-emerald-400" />
                 <span>General Elections {config.electionYear}</span>
               </div>
             </div>
@@ -66,9 +66,8 @@ export const HeroSection: React.FC = () => {
               <button
                 id="hero-cta-support-btn"
                 onClick={() => setIsDonationModalOpen(true)}
-                className="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-6 py-3.5 rounded-lg shadow-lg hover:shadow-emerald-900/50 transition flex items-center gap-2.5 text-sm md:text-base active:scale-95 border border-emerald-400/30"
+                className="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-6 py-3.5 rounded-lg shadow-lg hover:shadow-emerald-900/50 transition flex items-center justify-center text-sm md:text-base active:scale-95 border border-emerald-400/30"
               >
-                <Heart className="w-4 h-4 text-amber-300 fill-amber-300" />
                 <span>SUPPORT THE CAMPAIGN</span>
               </button>
 

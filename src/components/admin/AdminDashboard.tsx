@@ -3,20 +3,22 @@ import { useCampaign } from '../../context/CampaignContext';
 import {
   LayoutDashboard,
   Users,
-  Heart,
+  Wallet,
   MessageSquare,
   Calendar,
   Settings,
   ArrowLeft,
   Search,
   CheckCircle,
+  CheckCircle2,
+  DollarSign,
+  PieChart,
   Clock,
   Filter,
   Download,
   Edit3,
   Save,
   RotateCcw,
-  Sparkles,
   Shield,
   ShieldCheck,
   AlertTriangle,
@@ -173,7 +175,7 @@ export const AdminDashboard: React.FC = () => {
                 Campaign Operations Console
               </h1>
               <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">
-                PROTOTYPE SUITE
+                OPERATIONS SUITE
               </span>
             </div>
           </div>
@@ -251,7 +253,7 @@ export const AdminDashboard: React.FC = () => {
                 : 'bg-stone-800 text-stone-300 hover:text-white'
             }`}
           >
-            <Heart className="w-4 h-4" />
+            <Wallet className="w-4 h-4" />
             <span>Grassroots Finance ({donationRecords.length})</span>
           </button>
 
@@ -301,13 +303,13 @@ export const AdminDashboard: React.FC = () => {
               <div className="p-6 rounded-2xl bg-stone-950 border border-stone-800 space-y-2">
                 <div className="flex items-center justify-between text-stone-400">
                   <span className="text-xs font-bold uppercase tracking-wider">Total Donors</span>
-                  <Heart className="w-4 h-4 text-emerald-400" />
+                  <Wallet className="w-4 h-4 text-emerald-400" />
                 </div>
                 <div className="text-3xl font-extrabold text-white">
                   {donationRecords.length + 842}
                 </div>
                 <div className="text-xs text-stone-400">
-                  ₦{(totalDonationAmount + transparencyData.totalContributionsAmount).toLocaleString()} raised (Prototype)
+                  ₦{(totalDonationAmount + transparencyData.totalContributionsAmount).toLocaleString()} raised
                 </div>
               </div>
 
@@ -425,9 +427,9 @@ export const AdminDashboard: React.FC = () => {
                 </div>
 
                 <div className="p-4 rounded-xl bg-emerald-950/50 border border-emerald-800/60 text-xs text-emerald-200 space-y-1">
-                  <p className="font-bold">Prototype Presentation Tip:</p>
+                  <p className="font-bold">Campaign Operations Note:</p>
                   <p className="text-stone-300 leading-relaxed">
-                    Use the "Candidate Data Editor" tab to update the candidate's real name and constituency live during your pitch meeting.
+                    Use the "Candidate Data Editor" tab to update candidate profile information and constituency details.
                   </p>
                 </div>
               </div>

@@ -23,7 +23,7 @@ import { GallerySection } from './components/home/GallerySection';
 import { ContactSection } from './components/home/ContactSection';
 import { FinalCtaSection } from './components/home/FinalCtaSection';
 
-// Campaign AI Assistant (Gemini 3.8 Flash multi-turn chatbot)
+// Campaign Communications Helpdesk
 import { CampaignChatbot } from './components/chat/CampaignChatbot';
 
 // Admin Console
@@ -190,7 +190,7 @@ const CampaignApp: React.FC = () => {
       <LegalModal />
       <CandidateConfigModal />
 
-      {/* Global Campaign AI Assistant (Multi-turn Gemini Chatbot) */}
+      {/* Global Campaign Communications Helpdesk */}
       <CampaignChatbot />
 
       {/* Floating Presentation & Demo Controls (Bottom Left) */}

@@ -5,14 +5,13 @@ import {
   MessageSquare,
   X,
   Send,
-  Sparkles,
-  Bot,
   User,
   RotateCcw,
   CheckCircle2,
   ChevronDown,
   CornerDownLeft,
-  Loader2
+  Loader2,
+  Headphones
 } from 'lucide-react';
 
 const STARTER_PROMPTS = [
@@ -31,7 +30,7 @@ export const CampaignChatbot: React.FC = () => {
     {
       id: 'welcome-1',
       role: 'model',
-      text: `Hello! I am **Beacon AI**, the official campaign assistant for **${config.candidateName}**, candidate for the Federal House of Representatives representing **Khana/Gokana Federal Constituency, Rivers State (NNPP)**.\n\nHow can I help you today? You can ask about our legislative priorities, community projects in Bori and Gokana, volunteering, or campaign events!`,
+      text: `Hello! Welcome to the official campaign desk for **${config.candidateName}**, candidate for the Federal House of Representatives representing **Khana/Gokana Federal Constituency, Rivers State (NNPP)**.\n\nHow can we help you today? You can ask about our legislative priorities, community projects in Bori and Gokana, volunteering, or campaign events!`,
       timestamp: 'Just now'
     }
   ]);
@@ -112,7 +111,7 @@ export const CampaignChatbot: React.FC = () => {
       {
         id: `welcome-${Date.now()}`,
         role: 'model',
-        text: `Chat reset. Greetings! How can I assist you with **${config.candidateName}'s** campaign for Khana/Gokana Federal Constituency?`,
+        text: `Chat reset. Greetings! How can our campaign desk assist you regarding **${config.candidateName}'s** vision for Khana/Gokana Federal Constituency?`,
         timestamp: 'Just now'
       }
     ]);
@@ -124,29 +123,28 @@ export const CampaignChatbot: React.FC = () => {
       {!isOpen && (
         <div className="fixed bottom-6 right-6 z-40">
           <button
-            id="beacon-ai-chat-launcher"
+            id="campaign-helpdesk-launcher"
             onClick={() => setIsOpen(true)}
             className="group relative flex items-center gap-2.5 px-4 py-3 rounded-full bg-emerald-700 hover:bg-emerald-600 text-white shadow-xl hover:shadow-2xl transition-all duration-300 border border-emerald-500/50 hover:scale-105 active:scale-95"
-            aria-label="Open Campaign AI Assistant"
+            aria-label="Open Campaign Helpdesk"
           >
             <div className="relative">
               <div className="w-8 h-8 rounded-full bg-emerald-900 border border-emerald-400/60 flex items-center justify-center text-white overflow-hidden">
                 {config.partyLogoUrl ? (
                   <img src={config.partyLogoUrl} alt="NNPP" className="w-full h-full object-contain p-0.5 bg-white" referrerPolicy="no-referrer" />
                 ) : (
-                  <Bot className="w-4 h-4 text-emerald-200" />
+                  <MessageSquare className="w-4 h-4 text-emerald-200" />
                 )}
               </div>
               <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-amber-400 border-2 border-stone-900 animate-pulse" />
             </div>
 
             <div className="flex flex-col text-left">
-              <span className="text-xs font-bold leading-tight flex items-center gap-1">
-                <span>Ask Beacon AI</span>
-                <Sparkles className="w-3 h-3 text-amber-300" />
+              <span className="text-xs font-bold leading-tight">
+                Campaign Helpdesk
               </span>
               <span className="text-[10px] text-emerald-100 font-medium leading-none">
-                Campaign Assistant
+                Constituency Support
               </span>
             </div>
           </button>
@@ -157,7 +155,7 @@ export const CampaignChatbot: React.FC = () => {
       {isOpen && (
         <div
           role="dialog"
-          aria-label="Beacon AI Chatbot"
+          aria-label="Campaign Helpdesk"
           className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-[420px] h-[580px] max-h-[85vh] bg-stone-900 rounded-2xl shadow-2xl border border-stone-700/80 flex flex-col overflow-hidden text-stone-100 animate-in slide-in-from-bottom-5 duration-300"
         >
           {/* Header */}
@@ -166,7 +164,7 @@ export const CampaignChatbot: React.FC = () => {
               <div className="relative w-9 h-9 rounded-full overflow-hidden bg-white border border-emerald-500 p-0.5 shrink-0 shadow">
                 <img
                   src={config.partyLogoUrl || '/engr-buradum-portrait.svg'}
-                  alt="NNPP Beacon AI"
+                  alt="NNPP"
                   className="w-full h-full object-contain"
                   referrerPolicy="no-referrer"
                 />
@@ -176,11 +174,11 @@ export const CampaignChatbot: React.FC = () => {
               <div>
                 <div className="flex items-center gap-1.5">
                   <h3 className="text-xs font-bold text-white tracking-tight">
-                    Beacon AI • Campaign Assistant
+                    Campaign Helpdesk
                   </h3>
                 </div>
                 <p className="text-[11px] text-stone-400 line-clamp-1">
-                  Engr. Buradum Baribefe Daniel (NNPP 2027)
+                  Constituency Engagement Desk • NNPP 2027
                 </p>
               </div>
             </div>
@@ -207,7 +205,7 @@ export const CampaignChatbot: React.FC = () => {
 
           {/* Subheader Notice */}
           <div className="px-4 py-1.5 bg-emerald-950/40 border-b border-emerald-900/30 flex items-center justify-between text-[10px] text-emerald-300 font-medium">
-            <span>Official Policy & Voter Support AI</span>
+            <span>Official Citizen & Voter Information Desk</span>
             <span className="text-stone-400">Khana & Gokana 2027</span>
           </div>
 
@@ -222,7 +220,7 @@ export const CampaignChatbot: React.FC = () => {
                 >
                   {!isUser && (
                     <div className="w-6 h-6 rounded-full bg-emerald-900 border border-emerald-600/60 flex items-center justify-center text-white shrink-0 mt-0.5">
-                      <Bot className="w-3.5 h-3.5 text-emerald-300" />
+                      <MessageSquare className="w-3 h-3 text-emerald-300" />
                     </div>
                   )}
 
@@ -255,11 +253,11 @@ export const CampaignChatbot: React.FC = () => {
             {isLoading && (
               <div className="flex gap-2.5 justify-start">
                 <div className="w-6 h-6 rounded-full bg-emerald-900 border border-emerald-600/60 flex items-center justify-center text-white shrink-0">
-                  <Bot className="w-3.5 h-3.5 text-emerald-300" />
+                  <MessageSquare className="w-3 h-3 text-emerald-300" />
                 </div>
                 <div className="bg-stone-800/90 border border-stone-700/70 rounded-2xl rounded-bl-none p-3 text-stone-300 flex items-center gap-2">
                   <Loader2 className="w-3.5 h-3.5 text-emerald-400 animate-spin" />
-                  <span className="text-[11px]">Beacon AI is drafting response...</span>
+                  <span className="text-[11px]">Campaign Desk is preparing response...</span>
                 </div>
               </div>
             )}

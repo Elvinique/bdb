@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useCampaign } from '../../context/CampaignContext';
 import {
   ShieldCheck,
-  Heart,
   Send,
   ArrowUpRight,
   Mail,
@@ -227,7 +226,6 @@ export const Footer: React.FC = () => {
                   onClick={() => setIsDonationModalOpen(true)}
                   className="text-emerald-400 hover:text-emerald-300 font-medium transition flex items-center gap-1.5"
                 >
-                  <Heart className="w-3.5 h-3.5 fill-emerald-400" />
                   <span>Donate to Campaign</span>
                 </button>
               </li>
@@ -307,9 +305,6 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-3 text-stone-400">
-            <span className="px-2.5 py-1 rounded bg-stone-900 border border-stone-800 text-[11px] font-mono text-emerald-400">
-              PROTOTYPE DEMONSTRATION
-            </span>
             <button
               id="footer-admin-link"
               onClick={() => navigateTo('admin')}

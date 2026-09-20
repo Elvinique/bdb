@@ -3,7 +3,6 @@ import { useCampaign, AppView } from '../../context/CampaignContext';
 import {
   Menu,
   X,
-  Heart,
   ChevronRight,
   Shield,
   Users,
@@ -186,9 +185,8 @@ export const Navbar: React.FC = () => {
             <button
               id="nav-primary-donate-btn"
               onClick={handleDonateClick}
-              className="inline-flex items-center gap-1.5 bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-600 hover:from-emerald-500 hover:to-emerald-500 text-white font-bold px-4 sm:px-5 py-2 rounded-full text-xs tracking-wider uppercase shadow-lg shadow-emerald-950/60 hover:shadow-emerald-600/30 hover:brightness-110 active:scale-95 transition-all border border-emerald-400/40"
+              className="inline-flex items-center justify-center bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-600 hover:from-emerald-500 hover:to-emerald-500 text-white font-bold px-4 sm:px-5 py-2 rounded-full text-xs tracking-wider uppercase shadow-lg shadow-emerald-950/60 hover:shadow-emerald-600/30 hover:brightness-110 active:scale-95 transition-all border border-emerald-400/40"
             >
-              <Heart className="w-3.5 h-3.5 text-amber-300 fill-amber-300" />
               <span>DONATE</span>
             </button>
 
@@ -255,9 +253,8 @@ export const Navbar: React.FC = () => {
               <button
                 id="mobile-nav-donate-btn"
                 onClick={handleDonateClick}
-                className="flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white p-2.5 rounded-xl text-xs font-bold tracking-wide uppercase shadow transition"
+                className="flex items-center justify-center bg-gradient-to-r from-emerald-600 to-emerald-500 text-white p-2.5 rounded-xl text-xs font-bold tracking-wide uppercase shadow transition"
               >
-                <Heart className="w-4 h-4 text-amber-300 fill-amber-300" />
                 Donate
               </button>
             </div>

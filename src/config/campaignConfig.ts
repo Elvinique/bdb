@@ -531,7 +531,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
 ];
 
 export const INITIAL_TRANSPARENCY_DATA: TransparencyData = {
-  totalContributionsAmount: 48500000, // ₦48.5M prototype data
+  totalContributionsAmount: 48500000, // ₦48.5M baseline campaign contributions
   supporterCount: 4280,
   eventsCompleted: 24,
   activeVolunteers: 1240,
@@ -544,39 +544,32 @@ export const INITIAL_TRANSPARENCY_DATA: TransparencyData = {
       color: '#047857' // emerald-700
     },
     {
-      category: 'Constituent Communications & Publications',
-      percentage: 20,
-      amount: 9700000,
-      description: 'Printed manifestos in local languages, civic education booklets, policy briefings.',
+      category: 'Civic Education & Voter Sensitization',
+      percentage: 25,
+      amount: 12125000,
+      description: 'Community flyers, audio-visual translations, radio public announcements, grassroots policy guides.',
       color: '#0284c7' // sky-600
     },
     {
-      category: 'Civic Events & Volunteer Mobilization',
-      percentage: 18,
-      amount: 8730000,
-      description: 'Volunteer training materials, ward coordinator logistics, water and first-aid support.',
+      category: 'Constituency Ward Office Operations',
+      percentage: 20,
+      amount: 9700000,
+      description: 'Community listening desk rent, staff stipends, communication devices, outreach volunteers support.',
       color: '#d97706' // amber-600
     },
     {
-      category: 'Digital Outreach & Civic Tech Platform',
+      category: 'Digital Transparency & Media Directorate',
       percentage: 12,
       amount: 5820000,
-      description: 'Website hosting, SMS constituent alerts, broadcast production, cyber defense.',
-      color: '#6366f1' // indigo-500
+      description: 'Website maintenance, live streaming equipment, video documentary production, cyber-defense.',
+      color: '#7c3aed' // purple-600
     },
     {
-      category: 'Campaign Materials & Signage',
-      percentage: 10,
-      amount: 4850000,
-      description: 'Compliant civic banners, lapel pins, stickers, educational t-shirts.',
-      color: '#8b5cf6' // violet-500
-    },
-    {
-      category: 'Audit, Compliance & Administration',
-      percentage: 5,
-      amount: 2425000,
-      description: 'Legal retainer, independent accounts audit, campaign office utilities, security.',
-      color: '#64748b' // slate-500
+      category: 'Statutory Compliance & Independent Auditing',
+      percentage: 8,
+      amount: 3880000,
+      description: 'Certified financial accounting, legal filings with INEC, independent transparency audits.',
+      color: '#475569' // slate-600
     }
   ]
 };
@@ -584,14 +577,14 @@ export const INITIAL_TRANSPARENCY_DATA: TransparencyData = {
 export const INITIAL_DONATIONS: DonationRecord[] = [
   {
     id: 'DON-9481',
-    donorName: 'Dr. Kelechi Nwosu',
-    email: 'k.nwosu@example.com',
-    phone: '+234 802 345 6789',
+    donorName: 'Dr. Kelechi Nwankwo',
+    email: 'k.nwankwo@example.com',
+    phone: '+234 802 334 5566',
     amount: 50000,
     frequency: 'one-time',
     lga: '[PRIMARY LGA]',
     state: '[STATE]',
-    paymentMethod: 'Bank Transfer (Simulated)',
+    paymentMethod: 'Bank Transfer',
     reference: 'REF-TX-883921',
     date: '2026-03-08',
     status: 'Verified'
@@ -605,7 +598,7 @@ export const INITIAL_DONATIONS: DonationRecord[] = [
     frequency: 'one-time',
     lga: '[SECONDARY LGA]',
     state: '[STATE]',
-    paymentMethod: 'Card (Simulated)',
+    paymentMethod: 'Debit Card',
     reference: 'REF-TX-883922',
     date: '2026-03-08',
     status: 'Verified'
@@ -619,7 +612,7 @@ export const INITIAL_DONATIONS: DonationRecord[] = [
     frequency: 'monthly',
     lga: '[PRIMARY LGA]',
     state: '[STATE]',
-    paymentMethod: 'USSD (Simulated)',
+    paymentMethod: 'USSD',
     reference: 'REF-TX-883923',
     date: '2026-03-07',
     status: 'Verified'
@@ -633,7 +626,7 @@ export const INITIAL_DONATIONS: DonationRecord[] = [
     frequency: 'one-time',
     lga: '[PRIMARY LGA]',
     state: '[STATE]',
-    paymentMethod: 'Bank Transfer (Simulated)',
+    paymentMethod: 'Bank Transfer',
     reference: 'REF-TX-883924',
     date: '2026-03-06',
     status: 'Verified'
@@ -647,7 +640,7 @@ export const INITIAL_DONATIONS: DonationRecord[] = [
     frequency: 'one-time',
     lga: '[SECONDARY LGA]',
     state: '[STATE]',
-    paymentMethod: 'Card (Simulated)',
+    paymentMethod: 'Debit Card',
     reference: 'REF-TX-883925',
     date: '2026-03-05',
     status: 'Verified'

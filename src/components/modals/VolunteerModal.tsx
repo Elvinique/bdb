@@ -7,8 +7,7 @@ import {
   AlertCircle,
   Briefcase,
   MapPin,
-  Clock,
-  Sparkles
+  Clock
 } from 'lucide-react';
 
 export const VolunteerModal: React.FC = () => {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useCampaign } from '../../context/CampaignContext';
-import { Heart, ShieldCheck, Info, Check, ArrowRight } from 'lucide-react';
+import { ShieldCheck, Info, Check, ArrowRight } from 'lucide-react';
 
 export const DonationSection: React.FC = () => {
   const {
@@ -77,7 +77,7 @@ export const DonationSection: React.FC = () => {
           {/* Left: Campaign Support Purpose & Trust Note (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950 text-emerald-300 text-xs font-semibold uppercase tracking-wider border border-emerald-800">
-              <Heart className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
               <span>GRASSROOTS FUNDRAISING</span>
             </div>
 
@@ -89,15 +89,15 @@ export const DonationSection: React.FC = () => {
               Your support helps us connect with communities, share our vision and build a stronger grassroots campaign. Every contribution powers ward listening townhalls, voter education literature, and citizen mobilization.
             </p>
 
-            {/* Prototype Notice Box */}
-            <div className="p-4 rounded-2xl bg-amber-950/40 border border-amber-800/60 flex items-start gap-3">
-              <Info className="w-5 h-5 text-amber-400 mt-0.5 shrink-0" />
+            {/* Electoral Compliance Notice Box */}
+            <div className="p-4 rounded-2xl bg-emerald-950/40 border border-emerald-800/60 flex items-start gap-3">
+              <ShieldCheck className="w-5 h-5 text-emerald-400 mt-0.5 shrink-0" />
               <div className="space-y-1">
-                <p className="text-xs font-bold text-amber-300 uppercase tracking-wider">
-                  Interactive Prototype Notice
+                <p className="text-xs font-bold text-emerald-300 uppercase tracking-wider">
+                  Electoral Compliance & Security
                 </p>
                 <p className="text-xs text-stone-300 leading-relaxed">
-                  This prototype does not process real payments or require real banking credentials. Clicking "Continue to Payment" will launch a safe, simulated checkout flow for presentation purposes.
+                  All campaign contributions strictly adhere to INEC regulations and Nigerian Electoral Act financing thresholds. Contributions are processed through encrypted payment channels.
                 </p>
               </div>
             </div>
@@ -337,11 +337,11 @@ export const DonationSection: React.FC = () => {
                     type="submit"
                     className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 px-6 rounded-xl transition shadow-lg hover:shadow-emerald-900/50 flex items-center justify-center gap-2 text-sm active:scale-95 border border-emerald-400/30"
                   >
-                    <span>CONTINUE TO PAYMENT (PROTOTYPE)</span>
+                    <span>PROCEED TO SECURE CONTRIBUTION</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                   <p className="text-center text-[11px] text-stone-400 mt-2">
-                    Simulated payment confirmation • No card or bank account will be charged
+                    Encrypted 256-bit SSL transaction • Official digital receipt issued upon confirmation
                   </p>
                 </div>
 

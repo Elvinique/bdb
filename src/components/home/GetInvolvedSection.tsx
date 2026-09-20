@@ -5,9 +5,9 @@ import {
   Radio,
   Home,
   Share2,
-  Heart,
+  Wallet,
   ArrowRight,
-  Sparkles
+  Users
 } from 'lucide-react';
 
 export const GetInvolvedSection: React.FC = () => {
@@ -65,7 +65,7 @@ export const GetInvolvedSection: React.FC = () => {
       title: 'SUPPORT THE CAMPAIGN',
       subtitle: 'People-Powered Funding',
       description: 'Contribute to the campaign. Every voluntary naira directly powers community townhalls, campaign materials, and logistics.',
-      icon: Heart,
+      icon: Wallet,
       cta: 'Make a Contribution',
       action: () => setIsDonationModalOpen(true),
       badge: 'Grassroots Fund'
@@ -82,7 +82,7 @@ export const GetInvolvedSection: React.FC = () => {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-semibold uppercase tracking-wider border border-emerald-200">
-            <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+            <Users className="w-3.5 h-3.5 text-emerald-600" />
             <span>GRASSROOTS MOBILIZATION</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight">

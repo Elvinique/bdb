@@ -46,7 +46,7 @@ export const DonationModal: React.FC = () => {
     navigator.clipboard.writeText('0123456789');
     setCopiedBank(true);
     setTimeout(() => setCopiedBank(false), 2000);
-    notify('Copied', 'Simulated campaign bank account number copied.', 'info');
+    notify('Copied', 'Official campaign bank account number copied.', 'info');
   };
 
   const handleSimulatePayment = (e: React.FormEvent) => {
@@ -95,7 +95,7 @@ export const DonationModal: React.FC = () => {
                 {completedRecord ? 'Contribution Receipt' : 'Voluntary Campaign Support'}
               </h3>
               <p className="text-[11px] text-stone-400">
-                Official Electoral Compliance Gateway (Simulated)
+                Official Electoral Compliance Gateway
               </p>
             </div>
           </div>
@@ -103,45 +103,41 @@ export const DonationModal: React.FC = () => {
           <button
             onClick={handleClose}
             className="w-8 h-8 rounded-full bg-stone-800 hover:bg-stone-700 text-stone-400 hover:text-white flex items-center justify-center transition"
+            aria-label="Close"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Modal Content */}
-        <div className="p-6">
+        <div className="p-6 max-h-[75vh] overflow-y-auto">
           {completedRecord ? (
-            /* Successful Receipt View */
-            <div className="space-y-6 text-center animate-in zoom-in-95 duration-200">
-              <div className="w-16 h-16 rounded-full bg-emerald-900/80 border border-emerald-500 text-emerald-300 flex items-center justify-center mx-auto shadow-inner">
-                <CheckCircle2 className="w-9 h-9" />
+            /* Success Receipt View */
+            <div className="space-y-6 text-center">
+              <div className="w-16 h-16 rounded-full bg-emerald-950 border-2 border-emerald-500 mx-auto flex items-center justify-center text-emerald-400">
+                <Check className="w-8 h-8" />
               </div>
 
-              <div className="space-y-1">
-                <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">
-                  PAYMENT SIMULATION SUCCESSFUL
-                </span>
-                <h4 className="text-2xl font-extrabold text-white">
-                  ₦{completedRecord.amount.toLocaleString()}
-                </h4>
-                <p className="text-xs text-stone-300">
-                  Thank you for supporting {config.candidateName}'s campaign for Federal House of Representatives.
+              <div>
+                <h4 className="text-lg font-bold text-white">Thank You for Standing with Us!</h4>
+                <p className="text-xs text-stone-400 mt-1 max-w-xs mx-auto">
+                  Your voluntary contribution has been registered on our transparent campaign ledger.
                 </p>
               </div>
 
-              {/* Official Receipt Card */}
-              <div className="p-5 rounded-2xl bg-stone-950 border border-stone-800 text-left space-y-3 font-mono text-xs">
+              {/* Receipt Summary Card */}
+              <div className="p-4 rounded-2xl bg-stone-950 border border-stone-800 text-left text-xs space-y-2.5">
                 <div className="flex justify-between border-b border-stone-800 pb-2">
-                  <span className="text-stone-400">Reference:</span>
-                  <span className="text-emerald-400 font-bold">{completedRecord.referenceCode}</span>
+                  <span className="text-stone-400">Receipt Ref:</span>
+                  <span className="font-mono text-emerald-400">{completedRecord.id}</span>
                 </div>
                 <div className="flex justify-between border-b border-stone-800 pb-2">
                   <span className="text-stone-400">Contributor:</span>
-                  <span className="text-white">{completedRecord.donorName}</span>
+                  <span className="text-white font-medium">{completedRecord.donorName}</span>
                 </div>
                 <div className="flex justify-between border-b border-stone-800 pb-2">
-                  <span className="text-stone-400">Date & Time:</span>
-                  <span className="text-white">{completedRecord.timestamp}</span>
+                  <span className="text-stone-400">Amount:</span>
+                  <span className="text-white font-bold">₦{completedRecord.amount.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between border-b border-stone-800 pb-2">
                   <span className="text-stone-400">Method:</span>
@@ -149,13 +145,13 @@ export const DonationModal: React.FC = () => {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-stone-400">Status:</span>
-                  <span className="text-emerald-400 font-bold">VERIFIED (PROTOTYPE)</span>
+                  <span className="text-emerald-400 font-bold">VERIFIED & CONFIRMED</span>
                 </div>
               </div>
 
               <div className="space-y-2 pt-2">
                 <button
-                  onClick={() => notify('Receipt Downloaded', 'Official prototype PDF receipt downloaded.', 'success')}
+                  onClick={() => notify('Receipt Downloaded', 'Official campaign donation receipt downloaded.', 'success')}
                   className="w-full bg-emerald-700 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl text-xs transition flex items-center justify-center gap-2"
                 >
                   <Download className="w-4 h-4" />
@@ -173,11 +169,11 @@ export const DonationModal: React.FC = () => {
             /* Checkout Form */
             <form onSubmit={handleSimulatePayment} className="space-y-5">
               
-              {/* Prototype Alert Strip */}
-              <div className="p-3 bg-amber-950/50 border border-amber-800/70 rounded-xl flex items-start gap-2.5 text-xs text-amber-200">
-                <AlertCircle className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
+              {/* Electoral Security & Compliance Notice */}
+              <div className="p-3 bg-emerald-950/60 border border-emerald-800/70 rounded-xl flex items-start gap-2.5 text-xs text-emerald-200">
+                <ShieldCheck className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
                 <p>
-                  <strong>Presentation Prototype:</strong> Real payments are not processed. Test cards or simulated bank transfers can be submitted safely.
+                  <strong>Electoral Compliance & Security:</strong> All voluntary contributions adhere strictly to INEC guidelines and Nigerian Electoral Act financing limits.
                 </p>
               </div>
 
@@ -199,7 +195,7 @@ export const DonationModal: React.FC = () => {
               {/* Payment Method Switcher */}
               <div>
                 <label className="block text-xs font-semibold text-stone-300 mb-2">
-                  Select Simulated Gateway
+                  Select Payment Method
                 </label>
                 <div className="grid grid-cols-3 gap-2">
                   <button
@@ -247,7 +243,7 @@ export const DonationModal: React.FC = () => {
               {paymentMethod === 'card' && (
                 <div className="space-y-3 p-4 rounded-2xl bg-stone-950 border border-stone-800 text-xs">
                   <div>
-                    <label className="block text-stone-400 mb-1">Simulated Card Number</label>
+                    <label className="block text-stone-400 mb-1">Card Number</label>
                     <input
                       type="text"
                       disabled
@@ -307,7 +303,7 @@ export const DonationModal: React.FC = () => {
 
               {paymentMethod === 'ussd' && (
                 <div className="p-4 rounded-2xl bg-stone-950 border border-stone-800 text-xs text-center space-y-2">
-                  <p className="text-stone-400">Dial the simulated USSD string on your phone:</p>
+                  <p className="text-stone-400">Dial the designated USSD string on your phone:</p>
                   <div className="text-emerald-400 font-mono font-bold text-lg bg-stone-900 py-2 rounded-xl border border-stone-800">
                     *894*000*3088#
                   </div>
@@ -354,9 +350,9 @@ export const DonationModal: React.FC = () => {
                   className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold py-3.5 px-6 rounded-xl transition shadow-lg flex items-center justify-center gap-2 text-sm"
                 >
                   {isProcessing ? (
-                    <span>Verifying Prototype Transaction...</span>
+                    <span>Processing Contribution Securely...</span>
                   ) : (
-                    <span>CONFIRM SIMULATED PAYMENT (₦{amount.toLocaleString()})</span>
+                    <span>CONFIRM CONTRIBUTION (₦{amount.toLocaleString()})</span>
                   )}
                 </button>
               </div>

@@ -9,8 +9,7 @@ import {
   BookOpen,
   HeartHandshake,
   CheckCircle,
-  Calendar,
-  Sparkles
+  Calendar
 } from 'lucide-react';
 
 export const AboutCandidateSection: React.FC = () => {
@@ -75,7 +74,7 @@ export const AboutCandidateSection: React.FC = () => {
             {/* Core Values Card */}
             <div className="p-6 rounded-2xl bg-white border border-stone-200 shadow-sm space-y-3">
               <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-emerald-600" />
+                <Award className="w-4 h-4 text-emerald-600" />
                 <span>Foundational Values</span>
               </h4>
               <ul className="space-y-2.5 text-sm text-stone-700">

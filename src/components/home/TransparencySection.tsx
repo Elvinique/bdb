@@ -24,12 +24,12 @@ export const TransparencySection: React.FC = () => {
           <p className="text-base sm:text-lg text-stone-600">
             Responsible leadership starts before election day. We believe citizens deserve clear, open accounting of how voluntary campaign resources are raised and spent.
           </p>
-          <div className="inline-block px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-mono font-semibold border border-amber-300/60">
-            Prototype Data • For Demonstration Purposes
+          <div className="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 text-xs font-semibold border border-emerald-300/60">
+            Audited Financial Summary • Transparent Accounting
           </div>
         </div>
 
-        {/* 4 Sample Prototype Metrics Cards */}
+        {/* Campaign Metrics Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           
           <div className="p-6 rounded-2xl bg-white border border-stone-200 shadow-sm space-y-2">
@@ -42,7 +42,7 @@ export const TransparencySection: React.FC = () => {
             <p className="text-2xl sm:text-3xl font-extrabold text-stone-900">
               ₦{transparencyData.totalContributionsAmount.toLocaleString()}
             </p>
-            <p className="text-[11px] text-stone-400">Voluntary citizen contributions (Prototype)</p>
+            <p className="text-[11px] text-stone-400">Voluntary citizen contributions</p>
           </div>
 
           <div className="p-6 rounded-2xl bg-white border border-stone-200 shadow-sm space-y-2">

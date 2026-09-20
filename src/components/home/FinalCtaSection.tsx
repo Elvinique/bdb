@@ -1,6 +1,6 @@
 import React from 'react';
 import { useCampaign } from '../../context/CampaignContext';
-import { Heart, UserPlus, ArrowRight, ShieldCheck } from 'lucide-react';
+import { UserPlus, ArrowRight, ShieldCheck } from 'lucide-react';
 
 export const FinalCtaSection: React.FC = () => {
   const { config, setIsVolunteerModalOpen, setIsDonationModalOpen, navigateTo } = useCampaign();
@@ -46,9 +46,8 @@ export const FinalCtaSection: React.FC = () => {
           <button
             id="final-cta-donate-btn"
             onClick={() => setIsDonationModalOpen(true)}
-            className="bg-stone-800 hover:bg-stone-700 text-stone-100 font-bold px-8 py-4 rounded-xl border border-stone-600 hover:border-stone-500 transition flex items-center gap-2.5 text-base active:scale-95"
+            className="bg-stone-800 hover:bg-stone-700 text-stone-100 font-bold px-8 py-4 rounded-xl border border-stone-600 hover:border-stone-500 transition flex items-center justify-center text-base active:scale-95"
           >
-            <Heart className="w-5 h-5 text-amber-400 fill-amber-400" />
             <span>SUPPORT THE CAMPAIGN</span>
           </button>
 
